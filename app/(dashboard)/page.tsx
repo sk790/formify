@@ -135,7 +135,7 @@ function StatsCard({
 }
 
 function FormCadSkeleton() {
-  return <Skeleton className="border-2 border-primary/20 h-[190px] w-full" />;
+  return <Skeleton className="border-2 border-primary/20 h-[196px] w-full" />;
 }
 
 async function FormCards() {
@@ -177,7 +177,7 @@ function FormCard({ form }: { form: Form }) {
       </CardContent>
       <CardFooter>
         {form.published && (
-          <Button asChild className="w-full mt-2 text-md gap-2">
+          <Button asChild className="w-full text-md gap-2">
             <Link href={`/form/${form.id}`}>
               View Submissions <BiRightArrowAlt />
             </Link>
@@ -187,7 +187,7 @@ function FormCard({ form }: { form: Form }) {
           <Button
             variant={"secondary"}
             asChild
-            className="w-full mt-2 text-md gap-2"
+            className="w-full text-md gap-2"
           >
             <Link href={`/builder/${form.id}`}>
               Edit form <FaEdit />
