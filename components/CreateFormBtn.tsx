@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
+import { BsFileEarmarkPlus } from "react-icons/bs";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { ImSpinner2 } from "react-icons/im";
@@ -54,7 +55,15 @@ function CreateFormBtn() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Create new form</Button>
+        <Button
+          variant={"outline"}
+          className="group border border-white h-[190px] items-center justify-center flex flex-col hover:cursor-pointer border-dashed gap-4"
+        >
+          <BsFileEarmarkPlus className="h-8 w-8 text-muted-foreground group-hover:text-primary" />
+          <p className="font-bold text-xl text-muted-foreground group-hover:text-primary">
+            Create new form
+          </p>
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
