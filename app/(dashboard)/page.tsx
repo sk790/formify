@@ -1,4 +1,4 @@
-import { GetFormStats } from "@/actions/form";
+import { GetForms, GetFormStats } from "@/actions/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
@@ -112,4 +112,12 @@ function StatsCard({
       </CardContent>
     </Card>
   );
+}
+
+function FormCadSkeleton() {
+  return <Skeleton className="border-2 border-primary/20 h-[190px] w-full" />;
+}
+
+async function FormCards() {
+  const forms = await GetForms();
 }
