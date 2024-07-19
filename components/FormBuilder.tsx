@@ -6,7 +6,7 @@ import PublishedFormBtn from "./PublishedFormBtn";
 
 function FormBuilder({ form }: { form: Form }) {
   return (
-    <main className="flex flex-col w-full">
+    <nav className="flex flex-col w-full">
       <div className="flex justify-between border-b-2 p-4 gap-3 items-center">
         <h2 className="truncate font-medium">
           <span className="text-muted-foreground mr-2">Form:</span>
@@ -22,7 +22,7 @@ function FormBuilder({ form }: { form: Form }) {
           )}
         </div>
       </div>
-    </main>
+    </nav>
   );
 }
 
