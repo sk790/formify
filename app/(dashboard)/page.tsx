@@ -1,4 +1,4 @@
 
 export default function Home() {
-  return <div>hello</div>;
+  return <div className="container pt-4">hello</div>;
 }
