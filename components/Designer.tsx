@@ -10,6 +10,8 @@ import {
 import { DesignerContext } from "./context/DesignerContext";
 import useDesigner from "./hooks/useDesigner";
 import { idGenrator } from "@/lib/idGenrator";
+import { Button } from "./ui/button";
+import { BiSolidTrash } from "react-icons/bi";
 
 function Designer() {
   // const [element, setElement] = useState<FormElementInstance[]>([])
@@ -72,9 +74,68 @@ function Designer() {
 }
 
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
+  const { removeElement } = useDesigner();
+  const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
+  const topHalf = useDroppable({
+    id: element.id + "-top-half",
+    data: {
+      type: element.type,
+      elementId: element.id,
+      isTopHalfDesignerElement: true,
+    },
+  });
+  const bottomHalf = useDroppable({
+    id: element.id + "-bottom-half",
+    data: {
+      type: element.type,
+      elementId: element.id,
+      isBottomHalfDesignerElement: true,
+    },
+  });
   const DesignerElement = FormElements[element.type].designerComponent;
 
-  return <DesignerElement elementInstance={element} />;
+  return (
+    <div
+      className="relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
+      onMouseOver={() => setMouseIsOver(true)}
+      onMouseLeave={() => setMouseIsOver(false)}
+    >
+      <div
+        ref={topHalf.setNodeRef}
+        className={cn(
+          "absolute w-full h-1/2 rounded-t-md",
+          topHalf.isOver && "border-t-4 border-green-500"
+        )}
+      ></div>
+      <div
+        ref={bottomHalf.setNodeRef}
+        className="absolute w-full h-1/2 bottom-0 rounded-b-md"
+      ></div>
+      {mouseIsOver && (
+        <>
+          <div className="absolute right-0 h-full">
+            <Button
+              className="flex justify-center items-center h-full border rounded-md rounded-l-none bg-red-500"
+              variant={"outline"}
+              onClick={() => {
+                removeElement(element.id);
+              }}
+            >
+              <BiSolidTrash className="h-6 w-6" />
+            </Button>
+          </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">
+            <p className="text-muted-foreground text-sm">
+              Click for properties or drag to move
+            </p>
+          </div>
+        </>
+      )}
+      <div className="flex w-full h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none">
+        <DesignerElement elementInstance={element} />
+      </div>
+    </div>
+  );
 }
 
 export default Designer;
