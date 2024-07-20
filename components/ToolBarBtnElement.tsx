@@ -37,14 +37,6 @@ export function ToolBarBtnElementDragOverLay({
   formElement: FormElement;
 }) {
   const { icon: Icon, label } = formElement.desinerBtnElement;
-
-  const draggable = useDraggable({
-    id: `designer-btn-${formElement.type}`,
-    data: {
-      type: formElement.type,
-      isDesignerBtnElement: true,
-    },
-  });
   return (
     <Button
       className={`flex flex-col gap-2 w-[120px] h-[120px] cursor-grab`}

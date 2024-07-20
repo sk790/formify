@@ -21,7 +21,7 @@ type FormElementsType = {
   [key in ElementsType]: FormElement;
 };
 
-type FormElementInstance = {
+export type FormElementInstance = {
   id: string;
   type: ElementsType;
   extraAttributes?: Record<string, any>;
