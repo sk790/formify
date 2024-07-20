@@ -32,6 +32,7 @@ function Designer() {
         const newElement = FormElements[type as ElementsType].construct(
           idGenrator()
         );
+        addElement(0, newElement);
         console.log(newElement);
       }
     },
@@ -46,7 +47,7 @@ function Designer() {
             droppable.isOver && "ring-2 ring-primary/20"
           )}
         >
-          {!droppable.isOver && (
+          {!droppable.isOver && elements.length === 0 && (
             <p className="text-3xl text-muted-foreground flex flex-grow items-center font-bold">
               Drop here
             </p>
@@ -56,11 +57,24 @@ function Designer() {
               <div className="h-[120px] rounded-md bg-primary/20"></div>
             </div>
           )}
+          {elements.length > 0 && (
+            <div className="flex flex-col w-full gap-2 p-4">
+              {elements.map((element) => (
+                <DesignerElementWrapper key={element.id} element={element} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <DesignerToolbar />
     </div>
   );
+}
+
+function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
+  const DesignerElement = FormElements[element.type].designerComponent;
+
+  return <DesignerElement elementInstance={element} />;
 }
 
 export default Designer;
