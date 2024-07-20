@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import DesignerToolbar from "./DesignerToolbar";
-import { useDndMonitor, useDroppable } from "@dnd-kit/core";
+import { useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
 import { cn } from "@/lib/utils";
 import {
   ElementsType,
@@ -54,7 +54,7 @@ function Designer() {
               Drop here
             </p>
           )}
-          {droppable.isOver && (
+          {droppable.isOver && elements.length === 0 && (
             <div className="p-4 w-full">
               <div className="h-[120px] rounded-md bg-primary/20"></div>
             </div>
@@ -92,10 +92,23 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
       isBottomHalfDesignerElement: true,
     },
   });
-  const DesignerElement = FormElements[element.type].designerComponent;
 
+  const draggable = useDraggable({
+    id: element.id + "-drag-handler",
+    data: {
+      type: element.type,
+      elementId: element.id,
+      isDesignerElement: true,
+    },
+  });
+
+  if (draggable.isDragging) return null;
+  const DesignerElement = FormElements[element.type].designerComponent;
   return (
     <div
+      ref={draggable.setNodeRef}
+      {...draggable.attributes}
+      {...draggable.listeners}
       className="relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
       onMouseOver={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
@@ -131,7 +144,14 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
           </div>
         </>
       )}
-      <div className="flex w-full h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none">
+      <div
+        className={cn(
+          "flex w-full h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none opacity-100",
+          mouseIsOver && "opacity-30",
+          topHalf.isOver && "border-t-4 border-green-500 rounded-md",
+          bottomHalf.isOver && "border-b-4 border-red-500 rounded-md"
+        )}
+      >
         <DesignerElement elementInstance={element} />
       </div>
     </div>
