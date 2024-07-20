@@ -15,7 +15,8 @@ import { BiSolidTrash } from "react-icons/bi";
 
 function Designer() {
   // const [element, setElement] = useState<FormElementInstance[]>([])
-  const { elements, addElement } = useDesigner();
+  const { elements, addElement, selectedElement, setSelectedElement } =
+    useDesigner();
   const droppable = useDroppable({
     id: "designer-droppable",
     data: {
@@ -41,7 +42,12 @@ function Designer() {
   });
   return (
     <div className="flex w-full h-full">
-      <div className="p-4 w-full">
+      <div
+        className="p-4 w-full"
+        onClick={() => {
+          if (selectedElement) setSelectedElement(null);
+        }}
+      >
         <div
           ref={droppable.setNodeRef}
           className={cn(
@@ -74,7 +80,7 @@ function Designer() {
 }
 
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
-  const { removeElement } = useDesigner();
+  const { removeElement, selectedElement, setSelectedElement } = useDesigner();
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false);
   const topHalf = useDroppable({
     id: element.id + "-top-half",
@@ -104,6 +110,8 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
 
   if (draggable.isDragging) return null;
   const DesignerElement = FormElements[element.type].designerComponent;
+  console.log(selectedElement);
+
   return (
     <div
       ref={draggable.setNodeRef}
@@ -112,6 +120,10 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
       className="relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
       onMouseOver={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedElement(element);
+      }}
     >
       <div
         ref={topHalf.setNodeRef}
@@ -130,7 +142,8 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
             <Button
               className="flex justify-center items-center h-full border rounded-md rounded-l-none bg-red-500"
               variant={"outline"}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 removeElement(element.id);
               }}
             >
