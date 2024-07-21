@@ -15,8 +15,13 @@ import { BiSolidTrash } from "react-icons/bi";
 
 function Designer() {
   // const [element, setElement] = useState<FormElementInstance[]>([])
-  const { elements, addElement, selectedElement, setSelectedElement } =
-    useDesigner();
+  const {
+    elements,
+    addElement,
+    selectedElement,
+    setSelectedElement,
+    removeElement,
+  } = useDesigner();
   const droppable = useDroppable({
     id: "designer-droppable",
     data: {
@@ -29,15 +34,87 @@ function Designer() {
       console.log(event);
       const { active, over } = event;
       if (!active || !over) return;
+
       const isDesignerBtnElement = active.data?.current?.isDesignerBtnElement;
-      if (isDesignerBtnElement) {
+
+      //First Case - Dropping over designer drop area
+      const isDroppingOverDesignerDropArea =
+        over.data?.current?.isDesignerDropArea;
+
+      if (isDesignerBtnElement && isDroppingOverDesignerDropArea) {
         const type = active.data?.current?.type;
         const newElement = FormElements[type as ElementsType].construct(
           idGenrator()
         );
-        addElement(0, newElement);
-        console.log(newElement);
+        addElement(elements.length, newElement);
+        return;
       }
+
+      //Second Case - Dropping over designer element over the top or bottom of the element
+      const isDroppingOverDesignerElementTopHalf =
+        over.data?.current?.isTopHalfDesignerElement;
+      const isDroppingOverDesignerElementBottomHalf =
+        over.data?.current?.isBottomHalfDesignerElement;
+
+      const isDroppingOverDesignerElement =
+        isDroppingOverDesignerElementTopHalf |
+        isDroppingOverDesignerElementBottomHalf;
+
+      const droppingSidebarBtnOverDesignerElement =
+        isDesignerBtnElement && isDroppingOverDesignerElement;
+
+      if (droppingSidebarBtnOverDesignerElement) {
+        const type = active.data?.current?.type;
+        const newElement = FormElements[type as ElementsType].construct(
+          idGenrator()
+        );
+
+        const overId = over.data?.current?.elementId;
+        const overElementIndex = elements.findIndex(
+          (element) => element.id === overId
+        );
+        if (overElementIndex === -1) {
+          throw new Error("over element not found");
+        }
+        let indexForNewElement = overElementIndex;
+        if (isDroppingOverDesignerElementBottomHalf) {
+          indexForNewElement = overElementIndex + 1;
+        }
+        addElement(indexForNewElement, newElement);
+        return;
+      }
+
+      //Third Case - Dropping element over element in designer
+      const isDraggingDesignerElement = active.data?.current?.isDesignerElement;
+      const draggingDesignerElementOverAnotherElement =
+        isDroppingOverDesignerElement && isDraggingDesignerElement;
+
+      const activeId = active.data?.current?.elementId;
+      const overId = over.data?.current?.elementId;
+
+      const activeElementIndex = elements.findIndex(
+        (element) => element.id === activeId
+      );
+      const overElementIndex = elements.findIndex(
+        (element) => element.id === overId
+      );
+
+      if (activeElementIndex === -1 || overElementIndex === -1) {
+        throw new Error("active or over element not found");
+      }
+      const activeElement = { ...elements[activeElementIndex] };
+      removeElement(activeId);
+
+      let indexForNewElement = overElementIndex;
+
+      if (isDroppingOverDesignerElementBottomHalf) {
+        indexForNewElement = overElementIndex + 1;
+      } else if (isDroppingOverDesignerElementTopHalf) {
+        indexForNewElement = overElementIndex;
+      } else {
+        indexForNewElement = elements.length;
+      }
+      addElement(indexForNewElement, activeElement);
     },
   });
   return (
@@ -52,7 +129,7 @@ function Designer() {
           ref={droppable.setNodeRef}
           className={cn(
             `bg-background max-w-[920px] h-full m-auto rounded-xl flex flex-col flex-grow items-center justify-start flex-1`,
-            droppable.isOver && "ring-2 ring-primary/20"
+            droppable.isOver && "ring-4 ring-primary"
           )}
         >
           {!droppable.isOver && elements.length === 0 && (
