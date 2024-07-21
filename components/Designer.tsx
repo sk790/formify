@@ -187,7 +187,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
 
   if (draggable.isDragging) return null;
   const DesignerElement = FormElements[element.type].designerComponent;
-  console.log(selectedElement);
+  // console.log(selectedElement);
 
   return (
     <div
