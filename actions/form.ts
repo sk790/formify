@@ -121,3 +121,23 @@ export async function PublishForm(id: number) {
     },
   });
 }
+
+export async function GetFormContentByUrl(formUrl: string) {
+  const user = await currentUser();
+  if (!user) {
+    throw new UserNotFoundErr();
+  }
+  return await prisma.form.update({
+    select: {
+      content: true,
+    },
+    data: {
+      visits: {
+        increment: 1,
+      },
+    },
+    where: {
+      shareURL: formUrl,
+    },
+  });
+}
