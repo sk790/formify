@@ -6,6 +6,7 @@ function FormElementSidebar() {
   return (
     <div>
       <ToolBarBtnElement formElement={FormElements.TextField} />
+      <ToolBarBtnElement formElement={FormElements.TittleField} />
     </div>
   );
 }
