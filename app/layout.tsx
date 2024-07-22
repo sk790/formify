@@ -7,6 +7,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import DesignerContextProvider from "@/components/context/DesignerContext";
+import NextToploader from "nextjs-toploader";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,8 +22,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <DesignerContextProvider>
-          <body className={inter.className}>
+        <body className={inter.className}>
+          <NextToploader />
+          <DesignerContextProvider>
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
@@ -32,8 +34,8 @@ export default function RootLayout({
               {children}
               <Toaster />
             </ThemeProvider>
-          </body>
-        </DesignerContextProvider>
+          </DesignerContextProvider>
+        </body>
       </html>
     </ClerkProvider>
   );
