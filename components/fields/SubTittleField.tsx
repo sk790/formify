@@ -119,7 +119,7 @@ function DesignerComponent({
   return (
     <div className="flex flex-col gap-2 w-full">
       <Label>SubTittle Field</Label>
-      <p className="text-xl">{subTittle}</p>
+      <p className="text-lg">{subTittle}</p>
     </div>
   );
 }
@@ -131,5 +131,5 @@ function FormComponent({
   const element = elementInstance as CustomInstance;
 
   const { subTittle } = element.extraAttributes;
-  return <p className="text-sm">{subTittle}</p>;
+  return <p className="text-lg">{subTittle}</p>;
 }

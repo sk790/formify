@@ -5,6 +5,7 @@ import { deleteForm } from "@/actions/form";
 import { toast } from "./ui/use-toast";
 import { ImSpinner2 } from "react-icons/im";
 import { useRouter } from "next/navigation";
+import { MdDelete } from "react-icons/md";
 
 function DeleteForm({ formId }: { formId: number }) {
   const [pending, startTransition] = useTransition();
@@ -23,7 +24,13 @@ function DeleteForm({ formId }: { formId: number }) {
       variant={"destructive"}
       onClick={() => startTransition(DeleteFormById)}
     >
-      {pending ? <ImSpinner2 className="animate-spin h-6 w-6" /> : "Delete"}
+      {pending && <ImSpinner2 className="animate-spin h-4 w-4" />}
+      {!pending && (
+        <div className="flex gap-2 items-center">
+          Delete
+          <MdDelete className="w-4 h-4" />
+        </div>
+      )}
     </Button>
   );
 }
