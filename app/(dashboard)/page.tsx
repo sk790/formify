@@ -1,4 +1,4 @@
-import { GetForms, GetFormStats } from "@/actions/form";
+import { deleteForm, GetForms, GetFormStats } from "@/actions/form";
 import {
   Card,
   CardContent,
@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Suspense } from "react";
+import { Suspense, useTransition } from "react";
 import { LuView } from "react-icons/lu";
 import { FaEdit, FaWpforms } from "react-icons/fa";
 import { TbArrowBounce } from "react-icons/tb";
@@ -21,6 +21,7 @@ import { formatDistance } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Link from "next/link";
+import DeleteForm from "@/components/DeleteForm";
 
 export default function Home() {
   return (
@@ -175,7 +176,7 @@ function FormCard({ form }: { form: Form }) {
       <CardContent className="text-sm text-muted-foreground truncate">
         {form.description || "No description"}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex items-center justify-between gap-4">
         {form.published && (
           <Button asChild className="w-full text-md gap-2">
             <Link href={`/forms/${form.id}`}>
@@ -194,6 +195,7 @@ function FormCard({ form }: { form: Form }) {
             </Link>
           </Button>
         )}
+        <DeleteForm formId={form.id} />
       </CardFooter>
     </Card>
   );
