@@ -240,10 +240,10 @@ function DesignerComponent({
         {label}
         {required && <span className="text-red-500"> * </span>}
       </Label>
-      <Textarea readOnly disabled placeholder={placeholder} />
-      {helperText && (
+      <Textarea readOnly disabled placeholder={placeholder} rows={1} />
+      {/* {helperText && (
         <p className="text-sm text-muted-foreground">{helperText}</p>
-      )}
+      )} */}
     </div>
   );
 }

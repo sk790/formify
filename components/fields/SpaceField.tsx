@@ -47,7 +47,7 @@ export const SpacerFieldFormElement: FormElement = {
   }),
   desinerBtnElement: {
     icon: MdTextFields,
-    label: "Spacer Field",
+    label: "Spacer",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

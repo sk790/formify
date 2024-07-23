@@ -193,9 +193,9 @@ function DesignerComponent({
           {label}
           {required && <span className="text-red-500"> * </span>}
         </Label>
-        {helperText && (
+        {/* {helperText && (
           <p className="text-sm text-muted-foreground">{helperText}</p>
-        )}
+        )} */}
       </div>
     </div>
   );

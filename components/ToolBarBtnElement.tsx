@@ -18,14 +18,14 @@ function ToolBarBtnElement({ formElement }: { formElement: FormElement }) {
     <Button
       ref={draggable.setNodeRef}
       className={cn(
-        `flex flex-col gap-2 w-[120px] h-[120px] cursor-grab`,
+        `flex flex-col gap-2 w-[100px] h-[100px] cursor-grab`,
         draggable.isDragging && "ring-2 ring-primary"
       )}
       variant={"outline"}
       {...draggable.attributes}
       {...draggable.listeners}
     >
-      <Icon className="h-8 w-8 text-primary cursor-grab" />
+      <Icon className="h-6 w-6 text-primary cursor-grab" />
       <p className="text-sm">{label}</p>
     </Button>
   );

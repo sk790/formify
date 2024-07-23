@@ -52,7 +52,7 @@ export const NumberFieldFormElement: FormElement = {
   }),
   desinerBtnElement: {
     icon: Bs123,
-    label: "Number Field",
+    label: "Number",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -214,9 +214,9 @@ function DesignerComponent({
         {required && <span className="text-red-500"> * </span>}
       </Label>
       <Input readOnly disabled type="number" placeholder={placeholder} />
-      {helperText && (
+      {/* {helperText && (
         <p className="text-sm text-muted-foreground">{helperText}</p>
-      )}
+      )} */}
     </div>
   );
 }

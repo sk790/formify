@@ -207,15 +207,15 @@ function DesignerComponent({
   const element = elementInstance as CustomInstance;
   const { label, helperText, placeholder, required } = element.extraAttributes;
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-2 w-full h-[72px]">
       <Label>
         {label}
         {required && <span className="text-red-500"> * </span>}
       </Label>
       <Input readOnly disabled placeholder={placeholder} />
-      {helperText && (
+      {/* {helperText && (
         <p className="text-sm text-muted-foreground">{helperText}</p>
-      )}
+      )} */}
     </div>
   );
 }

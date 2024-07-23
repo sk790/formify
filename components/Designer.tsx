@@ -7,14 +7,12 @@ import {
   FormElementInstance,
   FormElements,
 } from "./FormElements";
-import { DesignerContext } from "./context/DesignerContext";
 import useDesigner from "./hooks/useDesigner";
 import { idGenrator } from "@/lib/idGenrator";
 import { Button } from "./ui/button";
 import { BiSolidTrash } from "react-icons/bi";
 
 function Designer() {
-  // const [element, setElement] = useState<FormElementInstance[]>([])
   const {
     elements,
     addElement,
@@ -120,7 +118,7 @@ function Designer() {
   return (
     <div className="flex w-full h-full">
       <div
-        className="p-4 w-full"
+        className="p-1 md:p-4 w-full"
         onClick={() => {
           if (selectedElement) setSelectedElement(null);
         }}
@@ -128,7 +126,7 @@ function Designer() {
         <div
           ref={droppable.setNodeRef}
           className={cn(
-            `bg-background max-w-[920px] h-full m-auto rounded-xl flex flex-col flex-grow items-center justify-start flex-1`,
+            `bg-background max-w-[920px] h-full m-auto rounded-xl flex flex-col flex-grow items-center justify-start flex-1 overflow-y-auto`,
             droppable.isOver && "ring-4 ring-primary"
           )}
         >
@@ -194,7 +192,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
       ref={draggable.setNodeRef}
       {...draggable.attributes}
       {...draggable.listeners}
-      className="relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
+      className="relative md:h-[100px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
       onMouseOver={() => setMouseIsOver(true)}
       onMouseLeave={() => setMouseIsOver(false)}
       onClick={(e) => {

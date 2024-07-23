@@ -15,7 +15,7 @@ export const SeparatorFieldFormElement: FormElement = {
   }),
   desinerBtnElement: {
     icon: RiSeparator,
-    label: "Separator Field",
+    label: "Separator",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

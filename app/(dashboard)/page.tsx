@@ -176,7 +176,7 @@ function FormCard({ form }: { form: Form }) {
       <CardContent className="text-sm text-muted-foreground truncate">
         {form.description || "No description"}
       </CardContent>
-      <CardFooter className="flex items-center justify-between gap-4">
+      <CardFooter className="flex items-center justify-center gap-4">
         {form.published && (
           <Button asChild className="w-full text-md gap-2">
             <Link href={`/forms/${form.id}`}>

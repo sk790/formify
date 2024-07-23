@@ -34,7 +34,7 @@ import { Calendar } from "../ui/calendar";
 const type: ElementsType = "DateField";
 
 const extraAttributes = {
-  label: "Date Field",
+  label: "Date",
   helperText: "Pick a date",
   required: false,
 };
@@ -55,7 +55,7 @@ export const DateFieldFormElement: FormElement = {
   }),
   desinerBtnElement: {
     icon: BsFillCalendarDateFill,
-    label: "Date Field",
+    label: "Date",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -202,9 +202,9 @@ function DesignerComponent({
         <CalendarIcon className="mr-2 h-4 w-4" />
         <span>Pick a date</span>
       </Button>
-      {helperText && (
+      {/* {helperText && (
         <p className="text-sm text-muted-foreground">{helperText}</p>
-      )}
+      )} */}
     </div>
   );
 }

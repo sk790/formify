@@ -66,7 +66,7 @@ export const SelectFieldFormElement: FormElement = {
   }),
   desinerBtnElement: {
     icon: RxDropdownMenu,
-    label: "Select Field",
+    label: "Select",
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
@@ -295,9 +295,9 @@ function DesignerComponent({
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
       </Select>
-      {helperText && (
+      {/* {helperText && (
         <p className="text-sm text-muted-foreground">{helperText}</p>
-      )}
+      )} */}
     </div>
   );
 }

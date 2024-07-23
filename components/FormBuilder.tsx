@@ -49,7 +49,7 @@ function FormBuilder({ form }: { form: Form }) {
     return (
       <>
         <Confetti />
-        <div className="flex flex-col items-center justify-center h-full w-full">
+        <div className="flex flex-col items-center justify-center h-screen w-screen">
           <div className="max-w-md">
             <h1 className="text-center text-4xl font-bold text-primary border-b pb-2 mb-10">
               Form Published
@@ -99,7 +99,7 @@ function FormBuilder({ form }: { form: Form }) {
         <nav className="flex flex-col w-full">
           <div className="flex justify-between border-b-2 p-4 gap-3 items-center">
             <h2 className="truncate font-medium">
-              <span className="text-muted-foreground mr-2">Form:</span>
+              <span className="text-muted-foreground mr-2 truncate">Form:</span>
               {form.name}
             </h2>
             <div className="flex gap-2 items-center">
@@ -113,7 +113,7 @@ function FormBuilder({ form }: { form: Form }) {
             </div>
           </div>
         </nav>
-        <div className="flex w-full flex-grow items-center justify-center relative overflow-y-hidden h-[200p] bg-accent bg-[url(/rails.svg)] dark:bg-[url(/rails-dark.svg)]">
+        <div className="flex w-full flex-grow items-center justify-center relative overflow-y-hidden h-[200px] bg-accent bg-[url(/rails.svg)] dark:bg-[url(/rails-dark.svg)]">
           <Designer />
         </div>
       </main>

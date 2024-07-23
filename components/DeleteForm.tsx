@@ -1,11 +1,22 @@
 "use client";
-import React, { useState, useTransition } from "react";
+import React, { useTransition } from "react";
 import { Button } from "./ui/button";
 import { deleteForm } from "@/actions/form";
 import { toast } from "./ui/use-toast";
 import { ImSpinner2 } from "react-icons/im";
 import { useRouter } from "next/navigation";
-import { MdDelete } from "react-icons/md";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
 
 function DeleteForm({ formId }: { formId: number }) {
   const [pending, startTransition] = useTransition();
@@ -19,19 +30,27 @@ function DeleteForm({ formId }: { formId: number }) {
     });
   };
   return (
-    <Button
-      className="w-full"
-      variant={"destructive"}
-      onClick={() => startTransition(DeleteFormById)}
-    >
-      {pending && <ImSpinner2 className="animate-spin h-4 w-4" />}
-      {!pending && (
-        <div className="flex gap-2 items-center">
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button className="" variant={"destructive"}>
           Delete
-          <MdDelete className="w-4 h-4" />
-        </div>
-      )}
-    </Button>
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Form</AlertDialogTitle>
+          <AlertDialogDescription>
+            If you are deleted this form you lose your form submissions data.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={() => startTransition(DeleteFormById)}>
+            Confirm{pending && <ImSpinner2 className="ml-2 animate-spin" />}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
 
