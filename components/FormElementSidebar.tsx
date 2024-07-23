@@ -26,6 +26,7 @@ function FormElementSidebar() {
         <ToolBarBtnElement formElement={FormElements.TextAreaField} />
         <ToolBarBtnElement formElement={FormElements.DateField} />
         <ToolBarBtnElement formElement={FormElements.SelectField} />
+        <ToolBarBtnElement formElement={FormElements.CheckBoxField} />
       </div>
     </div>
   );
