@@ -15,6 +15,7 @@ function FormElementSidebar() {
         <ToolBarBtnElement formElement={FormElements.TittleField} />
         <ToolBarBtnElement formElement={FormElements.SubTittleField} />
         <ToolBarBtnElement formElement={FormElements.ParagraphField} />
+        <ToolBarBtnElement formElement={FormElements.SeparatorField} />
 
         <p className="text-sm text-muted-foreground col-span-1 md:col-span-2 my-2 place-self-start">
           Form Elements
