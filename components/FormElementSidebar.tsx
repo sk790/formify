@@ -22,6 +22,7 @@ function FormElementSidebar() {
           Form Elements
         </p>
         <ToolBarBtnElement formElement={FormElements.TextField} />
+        <ToolBarBtnElement formElement={FormElements.NumberField} />
       </div>
     </div>
   );
