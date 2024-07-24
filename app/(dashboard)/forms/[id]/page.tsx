@@ -1,5 +1,4 @@
 import { GetFormById, GetFormWithSubmission } from "@/actions/form";
-import FormBuilder from "@/components/FormBuilder";
 import FormLinkShare from "@/components/FormLinkShare";
 import VisitBtn from "@/components/VisitBtn";
 import React, { ReactNode } from "react";
@@ -51,7 +50,7 @@ async function FormDetailPage({ params }: { params: { id: string } }) {
         <StatsCard
           title="Total Visits"
           icon={<LuView className="text-blue-600" />}
-          helperText="All time form visits"
+          helperText="All time form visits here."
           value={visits.toLocaleString() || ""}
           loading={false}
           className="shadow-md shadow-blue-600"
@@ -59,7 +58,7 @@ async function FormDetailPage({ params }: { params: { id: string } }) {
         <StatsCard
           title="Total Submission"
           icon={<FaWpforms className="text-yellow-600" />}
-          helperText="All time form submissions"
+          helperText="All time form submissions here."
           value={submissions.toLocaleString() || ""}
           loading={false}
           className="shadow-md shadow-yellow-600"
@@ -67,7 +66,7 @@ async function FormDetailPage({ params }: { params: { id: string } }) {
         <StatsCard
           title="Submission Rate"
           icon={<HiCursorClick className="text-red-600" />}
-          helperText="All time form  "
+          helperText="All time form submissions here."
           value={submissionRate.toLocaleString() + "%" || ""}
           loading={false}
           className="shadow-md shadow-red-600"
@@ -75,7 +74,7 @@ async function FormDetailPage({ params }: { params: { id: string } }) {
         <StatsCard
           title="Bounce Rate"
           icon={<TbArrowBounce className="text-green-600" />}
-          helperText="All time form visits"
+          helperText="All time form bounces here."
           value={bounceRate.toLocaleString() + "%" || ""}
           loading={false}
           className="shadow-md shadow-green-600"

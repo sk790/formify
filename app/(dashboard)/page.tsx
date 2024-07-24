@@ -66,7 +66,7 @@ function StatsCards(props: StatsCardProps) {
       <StatsCard
         title="Total Visits"
         icon={<LuView className="text-blue-600" />}
-        helperText="All time form visits"
+        helperText="All time form visits here."
         value={data?.visits.toLocaleString() || ""}
         loading={loading}
         className="shadow-md shadow-blue-600"
@@ -74,7 +74,7 @@ function StatsCards(props: StatsCardProps) {
       <StatsCard
         title="Total Submission"
         icon={<FaWpforms className="text-yellow-600" />}
-        helperText="All time form submissions"
+        helperText="All time form submissions here."
         value={data?.submissions.toLocaleString() || ""}
         loading={loading}
         className="shadow-md shadow-yellow-600"
@@ -82,7 +82,7 @@ function StatsCards(props: StatsCardProps) {
       <StatsCard
         title="Submission Rate"
         icon={<HiCursorClick className="text-red-600" />}
-        helperText="All time form  "
+        helperText="All time form submissions here."
         value={data?.submissionRate.toLocaleString() + "%" || ""}
         loading={loading}
         className="shadow-md shadow-red-600"
@@ -90,7 +90,7 @@ function StatsCards(props: StatsCardProps) {
       <StatsCard
         title="Bounce Rate"
         icon={<TbArrowBounce className="text-green-600" />}
-        helperText="All time form visits"
+        helperText="All time form bounces here."
         value={data?.bounceRate.toLocaleString() + "%" || ""}
         loading={loading}
         className="shadow-md shadow-green-600"
