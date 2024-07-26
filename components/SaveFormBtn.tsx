@@ -29,11 +29,11 @@ function SaveFormBtn({ id }: { id: number }) {
   return (
     <Button
       variant={"outline"}
-      className="gap-2"
+      className="gap-1 md:gap-2 p-1 md:p-2"
       disabled={loading}
       onClick={() => startTransition(updateFormContent)}
     >
-      <HiSave className="w-6 h-6" />
+      <HiSave className="w-4 h-4 md:w-6 md:h-6" />
       Save
       {loading && <FaSpinner className="w-6 h-6 animate-spin" />}
     </Button>

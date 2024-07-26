@@ -10,8 +10,8 @@ function PreviewDialogBtn() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"outline"} className="gap-2">
-          <MdPreview className="w-6 h-6" />
+        <Button variant={"outline"} className="gap-1 md:gap-2 p-1 md:p-2">
+          <MdPreview className="w-4 h-4 md:w-6 md:h-6" />
           Preview
         </Button>
       </DialogTrigger>

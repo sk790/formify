@@ -97,8 +97,8 @@ function FormBuilder({ form }: { form: Form }) {
     <DndContext sensors={sensors}>
       <main className="flex flex-col w-full">
         <nav className="flex flex-col w-full">
-          <div className="flex justify-between border-b-2 p-4 gap-3 items-center">
-            <h2 className="truncate font-medium">
+          <div className="flex justify-between border-b-2 p-4 gap-3 items-center flex-col md:flex-row">
+            <h2 className="truncate font-medium text-left">
               <span className="text-muted-foreground mr-2 truncate">Form:</span>
               {form.name}
             </h2>

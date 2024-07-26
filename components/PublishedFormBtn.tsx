@@ -41,9 +41,9 @@ function PublishedFormBtn({ id }: { id: number }) {
       <AlertDialogTrigger asChild>
         <Button
           variant={"outline"}
-          className="gap-2 text-white bg-gradient-to-r from-green-500 to-teal-500"
+          className="text-white bg-gradient-to-r from-green-500 to-teal-500 gap-1 md:gap-2 p-1 md:p-2"
         >
-          <MdOutlinePublic className="w-6 h-6" />
+          <MdOutlinePublic className="w-4 h-4 md:w-6 md:h-6" />
           Published
         </Button>
       </AlertDialogTrigger>
