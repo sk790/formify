@@ -1,16 +1,16 @@
-import React, { useContext, useState } from "react";
-import DesignerToolbar from "./DesignerToolbar";
-import { useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
+import { idGenrator } from "@/lib/idGenrator";
 import { cn } from "@/lib/utils";
+import { useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
+import { useState } from "react";
+import { BiSolidTrash } from "react-icons/bi";
+import DesignerToolbar from "./DesignerToolbar";
 import {
   ElementsType,
   FormElementInstance,
   FormElements,
 } from "./FormElements";
 import useDesigner from "./hooks/useDesigner";
-import { idGenrator } from "@/lib/idGenrator";
 import { Button } from "./ui/button";
-import { BiSolidTrash } from "react-icons/bi";
 
 function Designer() {
   const {
@@ -185,64 +185,67 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
 
   if (draggable.isDragging) return null;
   const DesignerElement = FormElements[element.type].designerComponent;
-  // console.log(selectedElement);
+  const [isSelect, setIsSelect] = useState<boolean>(false);
 
   return (
-    <div
-      ref={draggable.setNodeRef}
-      {...draggable.attributes}
-      {...draggable.listeners}
-      className="relative md:h-[100px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
-      onMouseOver={() => setMouseIsOver(true)}
-      onMouseLeave={() => setMouseIsOver(false)}
-      onClick={(e) => {
-        e.stopPropagation();
-        setSelectedElement(element);
-      }}
-    >
+    <>
       <div
-        ref={topHalf.setNodeRef}
-        className={cn(
-          "absolute w-full h-1/2 rounded-t-md",
-          topHalf.isOver && "border-t-4 border-green-500"
-        )}
-      ></div>
-      <div
-        ref={bottomHalf.setNodeRef}
-        className="absolute w-full h-1/2 bottom-0 rounded-b-md"
-      ></div>
-      {mouseIsOver && (
-        <>
-          <div className="absolute right-0 h-full">
-            <Button
-              className="flex justify-center items-center h-full border rounded-md rounded-l-none bg-red-500"
-              variant={"outline"}
-              onClick={(e) => {
-                e.stopPropagation();
-                removeElement(element.id);
-              }}
-            >
-              <BiSolidTrash className="h-6 w-6" />
-            </Button>
-          </div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse">
-            <p className="text-muted-foreground text-sm">
-              Click for properties or drag to move
-            </p>
-          </div>
-        </>
-      )}
-      <div
-        className={cn(
-          "flex w-full h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none opacity-100",
-          mouseIsOver && "opacity-30",
-          topHalf.isOver && "border-t-4 border-green-500 rounded-md",
-          bottomHalf.isOver && "border-b-4 border-red-500 rounded-md"
-        )}
+        ref={draggable.setNodeRef}
+        {...draggable.attributes}
+        {...draggable.listeners}
+        className="relative md:h-[100px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
+        onMouseOver={() => setMouseIsOver(true)}
+        onMouseLeave={() => setMouseIsOver(false)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setSelectedElement(element);
+          setIsSelect(!isSelect);
+        }}
       >
-        <DesignerElement elementInstance={element} />
+        <div
+          ref={topHalf.setNodeRef}
+          className={cn(
+            "absolute w-full h-1/2 rounded-t-md",
+            topHalf.isOver && "border-t-4 border-green-500"
+          )}
+        ></div>
+        <div
+          ref={bottomHalf.setNodeRef}
+          className="absolute w-full h-1/2 bottom-0 rounded-b-md"
+        ></div>
+        {mouseIsOver && (
+          <>
+            <div className="absolute right-0 h-full">
+              <Button
+                className="flex justify-center items-center h-full border rounded-md rounded-l-none bg-red-500"
+                variant={"outline"}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeElement(element.id);
+                }}
+              >
+                <BiSolidTrash className="h-6 w-6" />
+              </Button>
+            </div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse hidden md:block">
+              <p className="text-muted-foreground text-sm">
+                Click for properties or drag to move
+              </p>
+            </div>
+          </>
+        )}
+        <div
+          className={cn(
+            "flex w-full h-[120px] items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none opacity-100",
+            mouseIsOver && "opacity-30",
+            topHalf.isOver && "border-t-4 border-green-500 rounded-md",
+            bottomHalf.isOver && "border-b-4 border-red-500 rounded-md"
+          )}
+        >
+          <DesignerElement elementInstance={element} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
