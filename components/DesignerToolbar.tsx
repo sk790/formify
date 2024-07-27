@@ -1,8 +1,5 @@
-import React from "react";
-import ToolBarBtnElement from "./ToolBarBtnElement";
-import { FormElements } from "./FormElements";
-import useDesigner from "./hooks/useDesigner";
 import FormElementSidebar from "./FormElementSidebar";
+import useDesigner from "./hooks/useDesigner";
 import PropertiesFormSidebar from "./PropertiesFormSidebar";
 
 function DesignerToolbar() {

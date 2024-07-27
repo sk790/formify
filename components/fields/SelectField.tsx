@@ -254,10 +254,10 @@ function PropertiesComponent({
             <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-md">
               <div className="space-y-0.5">
                 <FormLabel>Required</FormLabel>
-                <FormDescription>
+                {/* <FormDescription>
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Dolore unde laudantium temporibus veniam officia sit repellat,
-                </FormDescription>
+                </FormDescription> */}
               </div>
               <FormControl>
                 <Switch
