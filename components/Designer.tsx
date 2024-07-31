@@ -183,10 +183,11 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
     },
   });
 
+  const [isSelect, setIsSelect] = useState<boolean>(false);
+  
   if (draggable.isDragging) return null;
   const DesignerElement = FormElements[element.type].designerComponent;
   
-  const [isSelect, setIsSelect] = useState<boolean>(false);
 
   return (
     <>
