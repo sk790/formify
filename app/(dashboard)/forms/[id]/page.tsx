@@ -8,6 +8,7 @@ import { FaWpforms } from "react-icons/fa";
 import { HiCursorClick } from "react-icons/hi";
 import { TbArrowBounce } from "react-icons/tb";
 import { ElementsType, FormElementInstance } from "@/components/FormElements";
+import { BsFiletypeXls } from "react-icons/bs";
 import {
   Table,
   TableBody,
@@ -19,6 +20,8 @@ import {
 import { format, formatDistance } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import exportToExcel from "@/lib/exportToExcel";
+import ExportToExcel from "@/components/ExportToExcel";
 
 async function FormDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -92,11 +95,14 @@ type Row = { [key: string]: string } & {
 };
 
 async function SubmissionTable({ formId }: { formId: number }) {
+
   const form = await GetFormWithSubmission(formId);
   if (!form) {
     throw new Error("form not found!");
   }
   const formElements = JSON.parse(form.content) as FormElementInstance[];
+  console.log("formElements", formElements);
+  
 
   const columns: {
     id: string;
@@ -108,17 +114,18 @@ async function SubmissionTable({ formId }: { formId: number }) {
   const rows: Row[] = [];
   form.FormSubmissions.forEach((submittedAt) => {
     const content = JSON.parse(submittedAt.content);
+    
     rows.push({ ...content, submittedAt: submittedAt.createdAt });
   });
-
+  
   formElements.forEach((element) => {
     switch (element.type) {
       case "TextField":
       case "NumberField":
-      case "CheckBoxField":
+        case "CheckBoxField":
       case "TextAreaField":
-      case "DateField":
-      case "SelectField":
+        case "DateField":
+          case "SelectField":
         columns.push({
           id: element.id,
           label: element.extraAttributes?.label,
@@ -130,9 +137,19 @@ async function SubmissionTable({ formId }: { formId: number }) {
         break;
     }
   });
+  const excelData = rows.map((row) => {
+    const newRow: { [key: string]: any } = {};
+    columns.forEach((column) => {
+      newRow[column.label] = row[column.id];
+    });
+    return newRow;
+  });
   return (
     <>
-      <h1 className="text-2xl font-bold">Submissions</h1>
+    <div className="flex justify-between">
+      <h2 className="text-2xl font-bold">Submissions</h2>
+      <ExportToExcel data = {excelData} fileName = {form.name}/>
+    </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
