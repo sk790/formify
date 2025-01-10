@@ -27,7 +27,7 @@ export default function RootLayout({
           <Script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3773468401628725"
-            crossOrigin="anonymous"
+            crossorigin="anonymous"
             strategy="afterInteractive" // Ensures script loads after page is interactive
           />
         </head>
