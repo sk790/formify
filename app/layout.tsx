@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import DesignerContextProvider from "@/components/context/DesignerContext";
 import NextToploader from "nextjs-toploader";
 import Script from "next/script";
+import AdSense from "@/components/AdSense";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,11 +25,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3773468401628725"
-            crossOrigin="anonymous"
-          ></script>
+          <head>
+            <AdSense />
+          </head>
         </head>
         <body className={inter.className}>
           <NextToploader />
