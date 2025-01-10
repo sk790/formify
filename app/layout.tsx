@@ -24,12 +24,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          <Script
+          <script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3773468401628725"
-            crossorigin="anonymous"
-            strategy="afterInteractive" // Ensures script loads after page is interactive
-          />
+            crossOrigin="anonymous"
+          ></script>
         </head>
         <body className={inter.className}>
           <NextToploader />
