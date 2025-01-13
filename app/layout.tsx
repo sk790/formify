@@ -25,10 +25,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <head>
-          <head>
-            <AdSense />
-          </head>
+          <AdSense />
         </head>
+
         <body className={inter.className}>
           <NextToploader />
           <DesignerContextProvider>
