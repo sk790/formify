@@ -9,9 +9,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import useDesigner from "./hooks/useDesigner";
+import { idGenrator } from "@/lib/idGenrator";
 
 function ToolBarBtnElement({ formElement }: { formElement: FormElement }) {
   const { icon: Icon, label } = formElement.desinerBtnElement;
+  const { addElement, elements } = useDesigner();
 
   const draggable = useDraggable({
     id: `designer-btn-${formElement.type}`,
@@ -20,6 +23,13 @@ function ToolBarBtnElement({ formElement }: { formElement: FormElement }) {
       isDesignerBtnElement: true,
     },
   });
+
+  const handleAddElement = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const newElement = formElement.construct(idGenrator());
+    addElement(elements.length, newElement);
+  };
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -27,17 +37,19 @@ function ToolBarBtnElement({ formElement }: { formElement: FormElement }) {
           <Button
             ref={draggable.setNodeRef}
             className={cn(
-              `flex flex-col gap-2 w-10 h-10 shrink-0 cursor-grab px-0 justify-center items-center`,
+              `flex flex-col md:flex-row gap-2 w-[80px] md:w-full h-[60px] md:h-[48px] shrink-0 cursor-grab active:cursor-grabbing px-2 justify-center md:justify-start items-center bg-accent/20 md:bg-transparent md:hover:bg-accent`,
               draggable.isDragging && "ring-2 ring-primary"
             )}
             variant={"ghost"}
+            onClick={handleAddElement}
             {...draggable.attributes}
             {...draggable.listeners}
           >
-            <Icon className="h-5 w-5 text-primary cursor-grab" />
+            <Icon className="h-6 w-6 md:h-5 md:w-5 text-primary cursor-grab" />
+            <p className="text-[10px] md:text-sm whitespace-nowrap overflow-hidden text-ellipsis md:block text-muted-foreground">{label}</p>
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="right">
+        <TooltipContent side="right" className="md:hidden">
           <p>{label}</p>
         </TooltipContent>
       </Tooltip>
@@ -50,13 +62,14 @@ export function ToolBarBtnElementDragOverLay({
 }: {
   formElement: FormElement;
 }) {
-  const { icon: Icon } = formElement.desinerBtnElement;
+  const { icon: Icon, label } = formElement.desinerBtnElement;
   return (
     <Button
-      className={`flex flex-col gap-2 w-10 h-10 cursor-grab px-0 justify-center items-center`}
+      className={`flex flex-col md:flex-row gap-2 w-[80px] md:w-[280px] h-[60px] md:h-[48px] cursor-grab px-2 justify-center md:justify-start items-center bg-accent`}
       variant={"outline"}
     >
-      <Icon className="h-5 w-5 text-primary cursor-grab" />
+      <Icon className="h-6 w-6 md:h-5 md:w-5 text-primary cursor-grab" />
+      <p className="text-[10px] md:text-sm whitespace-nowrap overflow-hidden text-ellipsis md:block text-muted-foreground">{label}</p>
     </Button>
   );
 }

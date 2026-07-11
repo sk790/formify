@@ -201,20 +201,42 @@ function DesignerComponent({
   }
 
   return (
-    <div className="flex items-top space-x-2">
-      <Checkbox id={id} />
-      <div className="grid gap-1.5 leading-none">
-        <Label htmlFor={id}>
-          {label}
-          {required && <span className="text-red-500"> * </span>}
-        </Label>
+    <div className="flex flex-col w-full">
+      <div className="flex items-center space-x-2 w-full">
+        <Checkbox id={id} />
+        <div className="flex-grow w-full">
+          {isSelected ? (
+            <div className="flex items-center gap-1 w-full">
+              <Input
+                value={label}
+                onChange={(e) => updateProp("label", e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.currentTarget.blur();
+                  }
+                }}
+                placeholder="Checkbox Label"
+                className="text-base font-medium border-none bg-transparent hover:bg-accent/50 focus-visible:ring-0 focus-visible:bg-background focus-visible:border-b-2 rounded-sm h-auto py-1 shadow-none pointer-events-auto flex-grow"
+              />
+              {required && <span className="text-red-500">*</span>}
+            </div>
+          ) : (
+            <Label htmlFor={id} className="text-base font-medium flex items-center gap-1 leading-none">
+              {label}
+              {required && <span className="text-red-500"> * </span>}
+            </Label>
+          )}
+        </div>
+      </div>
+      
+      <div className="pl-6 w-full mt-1.5">
         {hasHelperText && (
           isSelected ? (
             <Input
               value={helperText}
               onChange={(e) => updateProp("helperText", e.target.value)}
               placeholder="Helper text"
-              className="text-[0.8rem] rounded-sm text-muted-foreground pl-2 border-none bg-transparent hover:bg-accent/50 focus-visible:ring-0 focus-visible:bg-background focus-visible:border-b-2 h-auto py-1 shadow-none pointer-events-auto"
+              className="text-[0.8rem] rounded-sm text-muted-foreground pl-2 border-none bg-transparent hover:bg-accent/50 focus-visible:ring-0 focus-visible:bg-background focus-visible:border-b-2 h-auto py-1 shadow-none pointer-events-auto w-full"
             />
           ) : (
             helperText && (
@@ -251,27 +273,32 @@ function FormComponent({
   const { label, helperText, required, hasHelperText } = element.extraAttributes;
   const id = `checkbox-${element.id}`;
   return (
-    <div className="flex items-top space-x-2">
-      <Checkbox
-        id={id}
-        checked={value}
-        className={cn(error && "border-red-500")}
-        onCheckedChange={(checked) => {
-          let value = false;
-          if (checked === true) value = true;
-          setValue(value);
-          if (!submitValue) return;
-          const stringValue = value ? "true" : "false";
-          const valid = CheckboxFieldFormElement.validate(element, stringValue);
-          setError(!valid);
-          submitValue(element.id, stringValue);
-        }}
-      />
-      <div className="grid gap-1.5 leading-none">
-        <Label htmlFor={id} className={cn(error && "text-red-500")}>
-          {label}
-          {required && <span className="text-red-500"> * </span>}
-        </Label>
+    <div className="flex flex-col w-full">
+      <div className="flex items-center space-x-2 w-full">
+        <Checkbox
+          id={id}
+          checked={value}
+          className={cn(error && "border-red-500")}
+          onCheckedChange={(checked) => {
+            let value = false;
+            if (checked === true) value = true;
+            setValue(value);
+            if (!submitValue) return;
+            const stringValue = value ? "true" : "false";
+            const valid = CheckboxFieldFormElement.validate(element, stringValue);
+            setError(!valid);
+            submitValue(element.id, stringValue);
+          }}
+        />
+        <div className="flex-grow w-full">
+          <Label htmlFor={id} className={cn("leading-none", error && "text-red-500")}>
+            {label}
+            {required && <span className="text-red-500"> * </span>}
+          </Label>
+        </div>
+      </div>
+      
+      <div className="pl-6 w-full mt-1.5">
         {hasHelperText && helperText && (
           <p
             className={cn(

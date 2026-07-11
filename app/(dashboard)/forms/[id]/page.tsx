@@ -131,6 +131,7 @@ async function SubmissionTable({ formId }: { formId: number }) {
       case "LocationField":
       case "SignatureField":
       case "AudioRecorderField":
+      case "RadioField":
         columns.push({
           id: element.id,
           label: element.extraAttributes?.label,

@@ -40,7 +40,7 @@ const extraAttributes = {
   required: false,
   hasHelperText: false,
   placeholder: "value here...",
-  options: [] as string[],
+  options: ["Option 1", "Option 2"] as string[],
 };
 
 const propertiesSchema = z.object({

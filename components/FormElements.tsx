@@ -13,6 +13,8 @@ import { SelectFieldFormElement } from "./fields/SelectField";
 import { CheckboxFieldFormElement } from "./fields/CheckBoxField";
 import { UploadFieldFormElement } from "./fields/UploadField";
 import { CheckboxGridFieldFormElement } from "./fields/CheckboxGridField";
+import { RadioGridFieldFormElement } from "./fields/RadioGridField";
+import { TimeFieldFormElement } from "./fields/TimeField";
 import { LocationFieldFormElement } from "./fields/LocationField";
 import { SignatureFieldFormElement } from "./fields/SignatureField";
 import { AudioRecorderFieldFormElement } from "./fields/AudioRecorderField";
@@ -36,7 +38,9 @@ export type ElementsType =
   | "SignatureField"
   | "AudioRecorderField"
   | "FormHeaderField"
-  | "RadioField";
+  | "RadioField"
+  | "RadioGridField"
+  | "TimeField";
 export type SubmitFunction = (key: string, value: string) => void;
 
 export type FormElement = {
@@ -93,4 +97,6 @@ export const FormElements: FormElementsType = {
   AudioRecorderField: AudioRecorderFieldFormElement,
   FormHeaderField: FormHeaderFieldFormElement,
   RadioField: RadioFieldFormElement,
+  RadioGridField: RadioGridFieldFormElement,
+  TimeField: TimeFieldFormElement,
 };

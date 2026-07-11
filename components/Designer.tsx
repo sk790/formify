@@ -116,20 +116,39 @@ function Designer() {
       addElement(indexForNewElement, activeElement);
     },
   });
+  const bottomRef = React.useRef<HTMLDivElement>(null);
+  const prevElements = React.useRef<FormElementInstance[]>([]);
+
+  React.useEffect(() => {
+    if (elements.length > prevElements.current.length) {
+      const currentLast = elements[elements.length - 1];
+      const prevLast = prevElements.current[prevElements.current.length - 1];
+      
+      if (currentLast && prevLast && currentLast.id !== prevLast.id) {
+        // Element added at the very end
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      } else if (elements.length === 1 && prevElements.current.length === 0) {
+        // First element added
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+    prevElements.current = elements;
+  }, [elements]);
+
   return (
     <div className="flex w-full h-full overflow-hidden">
       <div
-        className="w-full h-full flex flex-col md:flex-row justify-center md:items-start p-1 md:p-4 overflow-y-auto"
+        className="w-full h-full flex flex-col md:flex-row justify-center md:items-stretch p-1 md:p-4 overflow-hidden"
         onClick={() => {
           if (selectedElement) setSelectedElement(null);
         }}
       >
-        <div className="flex flex-col md:flex-row gap-4 max-w-full items-start w-full md:w-auto">
+        <div className="flex flex-col md:flex-row gap-4 max-w-full h-full items-stretch w-full justify-center">
           {/* Canvas */}
           <div
             ref={droppable.setNodeRef}
             className={cn(
-              `bg-background w-full md:w-[768px] h-full min-h-[500px] rounded-xl flex flex-col flex-grow items-center justify-start flex-1 shadow-sm`,
+              `bg-background w-full max-w-[920px] h-full rounded-xl flex flex-col flex-grow items-center justify-start flex-1 shadow-sm overflow-y-auto`,
               droppable.isOver && "ring-4 ring-primary",
             )}
           >
@@ -148,6 +167,7 @@ function Designer() {
                 {elements.map((element) => (
                   <DesignerElementWrapper key={element.id} element={element} />
                 ))}
+                <div ref={bottomRef} className="h-1" />
               </div>
             )}
           </div>
