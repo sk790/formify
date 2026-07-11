@@ -6,12 +6,18 @@ import { ParagraphFieldFormElement } from "./fields/ParagraphField";
 import { SeparatorFieldFormElement } from "./fields/SeparatorField";
 import { SpacerFieldFormElement } from "./fields/SpaceField";
 import { NumberFieldFormElement } from "./fields/NumberField";
+
 import { TextAreaFieldFormElement } from "./fields/TextAreaField";
 import { DateFieldFormElement } from "./fields/DateField";
 import { SelectFieldFormElement } from "./fields/SelectField";
 import { CheckboxFieldFormElement } from "./fields/CheckBoxField";
 import { UploadFieldFormElement } from "./fields/UploadField";
-
+import { CheckboxGridFieldFormElement } from "./fields/CheckboxGridField";
+import { LocationFieldFormElement } from "./fields/LocationField";
+import { SignatureFieldFormElement } from "./fields/SignatureField";
+import { AudioRecorderFieldFormElement } from "./fields/AudioRecorderField";
+import { FormHeaderFieldFormElement } from "./fields/FormHeaderField";
+import { RadioFieldFormElement } from "./fields/RadioField";
 export type ElementsType =
   | "TextField"
   | "TittleField"
@@ -24,8 +30,13 @@ export type ElementsType =
   | "DateField"
   | "SelectField"
   | "CheckBoxField"
-  | "UploadField";
-
+  | "UploadField"
+  | "CheckboxGridField"
+  | "LocationField"
+  | "SignatureField"
+  | "AudioRecorderField"
+  | "FormHeaderField"
+  | "RadioField";
 export type SubmitFunction = (key: string, value: string) => void;
 
 export type FormElement = {
@@ -76,4 +87,10 @@ export const FormElements: FormElementsType = {
   SelectField: SelectFieldFormElement,
   CheckBoxField: CheckboxFieldFormElement,
   UploadField: UploadFieldFormElement,
+  CheckboxGridField: CheckboxGridFieldFormElement,
+  LocationField: LocationFieldFormElement,
+  SignatureField: SignatureFieldFormElement,
+  AudioRecorderField: AudioRecorderFieldFormElement,
+  FormHeaderField: FormHeaderFieldFormElement,
+  RadioField: RadioFieldFormElement,
 };

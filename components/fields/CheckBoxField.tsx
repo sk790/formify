@@ -187,11 +187,10 @@ function DesignerComponent({
   const element = elementInstance as CustomInstance;
   const { label, helperText, required, hasHelperText } = element.extraAttributes;
   const id = `checkbox-${element.id}`;
-  const { selectedElement, setSelectedElement } = useDesigner();
+  const { selectedElement, updateElement } = useDesigner();
   const isSelected = selectedElement?.id === element.id;
 
   function updateProp(key: string, value: any) {
-    const { updateElement } = useDesigner();
     updateElement(element.id, {
       ...element,
       extraAttributes: {

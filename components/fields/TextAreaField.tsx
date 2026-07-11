@@ -1,6 +1,6 @@
 "use client";
 
-import { MdTextFields } from "react-icons/md";
+import { BsTextareaResize } from "react-icons/bs";
 import {
   ElementsType,
   FormElement,
@@ -55,7 +55,7 @@ export const TextAreaFieldFormElement: FormElement = {
     extraAttributes,
   }),
   desinerBtnElement: {
-    icon: MdTextFields,
+    icon: BsTextareaResize,
     label: "Text Area",
   },
   designerComponent: DesignerComponent,

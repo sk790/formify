@@ -153,7 +153,7 @@ function Designer() {
           </div>
 
           {/* Toolbar */}
-          <div className="md:sticky md:top-4 fixed bottom-0 left-0 w-full md:w-auto md:relative z-50">
+          <div className="md:sticky md:top-4 fixed bottom-0 left-0 w-full md:w-auto m z-50">
             <DesignerToolbar />
           </div>
         </div>
@@ -196,6 +196,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
       elementId: element.id,
       isDesignerElement: true,
     },
+    disabled: element.type === "FormHeaderField",
   });
 
   const isSelected = selectedElement?.id === element.id;
@@ -231,6 +232,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
           className="absolute w-full h-1/2 bottom-0 rounded-b-md pointer-events-none"
         ></div>
         
+        {element.type !== "FormHeaderField" && (
           <>
             <div className="absolute left-1/2 -translate-x-1/2 z-10">
               <div
@@ -241,6 +243,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
               </div>
             </div>
           </>
+        )}
         
         <div
           className={cn(

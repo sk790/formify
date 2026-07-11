@@ -46,7 +46,7 @@ export const SpacerFieldFormElement: FormElement = {
     extraAttributes,
   }),
   desinerBtnElement: {
-    icon: MdTextFields,
+    icon: LuSeparatorHorizontal,
     label: "Spacer",
   },
   designerComponent: DesignerComponent,

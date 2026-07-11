@@ -127,6 +127,10 @@ async function SubmissionTable({ formId }: { formId: number }) {
       case "DateField":
       case "SelectField":
       case "UploadField":
+      case "CheckboxGridField":
+      case "LocationField":
+      case "SignatureField":
+      case "AudioRecorderField":
         columns.push({
           id: element.id,
           label: element.extraAttributes?.label,
@@ -207,6 +211,58 @@ function RowCell({ type, value }: { type: ElementsType; value: string }) {
         <a href={value} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
           View File
         </a>
+      );
+      break;
+    case "CheckboxGridField":
+      if (!value) break;
+      try {
+        const parsed = JSON.parse(value) as Record<string, string[]>;
+        node = (
+          <div className="flex flex-col gap-1 text-xs">
+            {Object.entries(parsed).map(([row, cols]) => {
+              if (cols.length === 0) return null;
+              return (
+                <span key={row}>
+                  <strong className="text-muted-foreground">{row}:</strong> {cols.join(", ")}
+                </span>
+              );
+            })}
+          </div>
+        );
+      } catch {
+        node = value;
+      }
+      break;
+    case "LocationField":
+      if (!value) break;
+      try {
+        const [lat, lng] = JSON.parse(value);
+        node = (
+          <a
+            href={`https://www.google.com/maps?q=${lat},${lng}`}
+            target="_blank"
+            rel="noreferrer"
+            className="text-blue-500 hover:underline flex items-center gap-1"
+          >
+            {lat.toFixed(4)}, {lng.toFixed(4)}
+          </a>
+        );
+      } catch {
+        node = value;
+      }
+      break;
+    case "SignatureField":
+      if (!value) break;
+      node = (
+        <a href={value} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
+          View Signature
+        </a>
+      );
+      break;
+    case "AudioRecorderField":
+      if (!value) break;
+      node = (
+        <audio controls src={value} className="h-10 w-48" />
       );
       break;
   }

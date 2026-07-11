@@ -22,9 +22,10 @@ import Link from "next/link";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import Confetti from "react-confetti";
 import { UpdateFormName } from "@/actions/form";
+import { FormElements } from "./FormElements";
 
 function FormBuilder({ form }: { form: Form }) {
-  const { setElements } = useDesigner();
+  const { setElements, setSelectedElement } = useDesigner();
   const [formName, setFormName] = useState(form.name);
 
   const updateName = async (newName: string) => {
@@ -63,8 +64,15 @@ function FormBuilder({ form }: { form: Form }) {
 
   useEffect(() => {
     const elements = JSON.parse(form.content);
-    setElements(elements);
-  }, [form, setElements]);
+    if (elements.length === 0) {
+      const id = "header-" + Math.floor(Math.random() * 10000).toString();
+      const newElement = FormElements.FormHeaderField.construct(id);
+      setElements([newElement]);
+      setSelectedElement(newElement);
+    } else {
+      setElements(elements);
+    }
+  }, [form, setElements, setSelectedElement]);
 
   const [shareLink, setShareLink] = useState("");
 
