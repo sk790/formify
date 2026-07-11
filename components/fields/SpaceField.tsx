@@ -51,7 +51,6 @@ export const SpacerFieldFormElement: FormElement = {
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
-  propertiesComponent: PropertiesComponent,
   validate: (
     formElement: FormElementInstance,
     currentValue: string
@@ -70,67 +69,6 @@ type CustomInstance = FormElementInstance & {
 
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
-function PropertiesComponent({
-  elementInstance,
-}: {
-  elementInstance: FormElementInstance;
-}) {
-  const { updateElement } = useDesigner();
-  const element = elementInstance as CustomInstance;
-  const form = useForm<propertiesFormSchemaType>({
-    resolver: zodResolver(propertiesSchema),
-    mode: "onBlur",
-    defaultValues: {
-      height: element.extraAttributes.height,
-    },
-  });
-
-  useEffect(() => {
-    form.reset(element.extraAttributes);
-  }, [element, form]);
-
-  function applyChanges(data: propertiesFormSchemaType) {
-    const { height } = data;
-    updateElement(element.id, {
-      ...element,
-      extraAttributes: {
-        height,
-      },
-    });
-  }
-
-  return (
-    <Form {...form}>
-      <form
-        onBlur={form.handleSubmit(applyChanges)}
-        className="space-y-3"
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <FormField
-          name="height"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Height (px):{form.watch("height")}</FormLabel>
-              <FormControl>
-                <Slider
-                  defaultValue={[field.value]}
-                  min={5}
-                  max={100}
-                  step={1}
-                  onValueChange={(value) => {
-                    field.onChange(value[0]);
-                  }}
-                />
-              </FormControl>
-              <FormDescription>Description</FormDescription>
-            </FormItem>
-          )}
-        ></FormField>
-      </form>
-    </Form>
-  );
-}
 
 function DesignerComponent({
   elementInstance,
@@ -139,10 +77,39 @@ function DesignerComponent({
 }) {
   const element = elementInstance as CustomInstance;
   const { height } = element.extraAttributes;
+  const { updateElement, selectedElement } = useDesigner();
+  const isSelected = selectedElement?.id === element.id;
+
+  const updateProp = (value: number) => {
+    updateElement(element.id, {
+      ...element,
+      extraAttributes: {
+        height: value,
+      },
+    });
+  };
+
   return (
-    <div className="flex flex-col gap-2 w-full items-center justify-center">
-      <Label>Spacer Field: {height}px</Label>
-      <LuSeparatorHorizontal className="h-8 w-8" />
+    <div className="flex flex-col gap-2 w-full items-center justify-center pointer-events-auto">
+      {isSelected && (
+        <div className="flex items-center gap-4 w-full justify-center">
+           <Label className="text-sm font-medium">Height ({height}px)</Label>
+           <Slider
+             value={[height]}
+             min={5}
+             max={200}
+             step={1}
+             onValueChange={(val) => updateProp(val[0])}
+             className="w-[200px]"
+           />
+        </div>
+      )}
+      {!isSelected && (
+        <>
+          <Label className="text-muted-foreground">Spacer Field: {height}px</Label>
+          <LuSeparatorHorizontal className="h-8 w-8 text-muted-foreground" />
+        </>
+      )}
     </div>
   );
 }

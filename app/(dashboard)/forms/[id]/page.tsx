@@ -2,7 +2,7 @@ import { GetFormById, GetFormWithSubmission } from "@/actions/form";
 import FormLinkShare from "@/components/FormLinkShare";
 import VisitBtn from "@/components/VisitBtn";
 import React, { ReactNode } from "react";
-import { StatsCard } from "../../page";
+import { StatsCard } from "@/components/StatsCard";
 import { LuView } from "react-icons/lu";
 import { FaWpforms } from "react-icons/fa";
 import { HiCursorClick } from "react-icons/hi";
@@ -122,10 +122,11 @@ async function SubmissionTable({ formId }: { formId: number }) {
     switch (element.type) {
       case "TextField":
       case "NumberField":
-        case "CheckBoxField":
+      case "CheckBoxField":
       case "TextAreaField":
-        case "DateField":
-          case "SelectField":
+      case "DateField":
+      case "SelectField":
+      case "UploadField":
         columns.push({
           id: element.id,
           label: element.extraAttributes?.label,
@@ -199,6 +200,14 @@ function RowCell({ type, value }: { type: ElementsType; value: string }) {
     case "CheckBoxField":
       const checked = value === "true";
       node = <Checkbox checked={checked} disabled />;
+      break;
+    case "UploadField":
+      if (!value) break;
+      node = (
+        <a href={value} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline">
+          View File
+        </a>
+      );
       break;
   }
   return <TableCell>{node}</TableCell>;

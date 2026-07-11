@@ -11,7 +11,7 @@ import { Input } from "../ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useDesigner from "../hooks/useDesigner";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { LuHeading1 } from "react-icons/lu";
@@ -41,7 +41,6 @@ export const ParagraphFieldFormElement: FormElement = {
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
-  propertiesComponent: PropertiesComponent,
   validate: () => true,
 };
 
@@ -51,66 +50,7 @@ type CustomInstance = FormElementInstance & {
 
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
-function PropertiesComponent({
-  elementInstance,
-}: {
-  elementInstance: FormElementInstance;
-}) {
-  const { updateElement } = useDesigner();
-  const element = elementInstance as CustomInstance;
-  const form = useForm<propertiesFormSchemaType>({
-    resolver: zodResolver(propertiesSchema),
-    mode: "onBlur",
-    defaultValues: {
-      text: element.extraAttributes.text,
-    },
-  });
 
-  useEffect(() => {
-    form.reset(element.extraAttributes);
-  }, [element, form]);
-
-  function applyChanges(data: propertiesFormSchemaType) {
-    const { text } = data;
-    updateElement(element.id, {
-      ...element,
-      extraAttributes: {
-        text,
-      },
-    });
-  }
-
-  return (
-    <Form {...form}>
-      <form
-        onBlur={form.handleSubmit(applyChanges)}
-        className="space-y-3"
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <FormField
-          name="text"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Text</FormLabel>
-              <FormControl>
-                <Textarea
-                  rows={5}
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.currentTarget.blur();
-                    }
-                  }}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        ></FormField>
-      </form>
-    </Form>
-  );
-}
 
 function DesignerComponent({
   elementInstance,
@@ -119,10 +59,30 @@ function DesignerComponent({
 }) {
   const element = elementInstance as CustomInstance;
   const { text } = element.extraAttributes;
+  const { updateElement, selectedElement } = useDesigner();
+  const isSelected = selectedElement?.id === element.id;
+
+  const updateProp = (value: string) => {
+    updateElement(element.id, {
+      ...element,
+      extraAttributes: {
+        text: value,
+      },
+    });
+  };
+
   return (
     <div className="flex flex-col gap-2 w-full">
-      <Label>Paragraph Field</Label>
-      <p>{text}</p>
+      {isSelected ? (
+        <Textarea
+          value={text}
+          onChange={(e) => updateProp(e.target.value)}
+          rows={3}
+          className="text-base pl-2 border-none bg-transparent hover:bg-accent/50 focus-visible:ring-0 focus-visible:bg-background focus-visible:border-b-2 rounded-sm shadow-none resize-none pointer-events-auto"
+        />
+      ) : (
+        <p className="text-base pl-2 rounded-sm">{text}</p>
+      )}
     </div>
   );
 }

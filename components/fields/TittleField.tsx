@@ -11,7 +11,7 @@ import { Input } from "../ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useDesigner from "../hooks/useDesigner";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { LuHeading1 } from "react-icons/lu";
@@ -39,7 +39,6 @@ export const TittleFieldFormElement: FormElement = {
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
-  propertiesComponent: PropertiesComponent,
   validate: () => true,
 };
 
@@ -49,65 +48,7 @@ type CustomInstance = FormElementInstance & {
 
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
 
-function PropertiesComponent({
-  elementInstance,
-}: {
-  elementInstance: FormElementInstance;
-}) {
-  const { updateElement } = useDesigner();
-  const element = elementInstance as CustomInstance;
-  const form = useForm<propertiesFormSchemaType>({
-    resolver: zodResolver(propertiesSchema),
-    mode: "onBlur",
-    defaultValues: {
-      tittle: element.extraAttributes.tittle,
-    },
-  });
 
-  useEffect(() => {
-    form.reset(element.extraAttributes);
-  }, [element, form]);
-
-  function applyChanges(data: propertiesFormSchemaType) {
-    const { tittle } = data;
-    updateElement(element.id, {
-      ...element,
-      extraAttributes: {
-        tittle,
-      },
-    });
-  }
-
-  return (
-    <Form {...form}>
-      <form
-        onBlur={form.handleSubmit(applyChanges)}
-        className="space-y-3"
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <FormField
-          name="tittle"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tittle</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.currentTarget.blur();
-                    }
-                  }}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        ></FormField>
-      </form>
-    </Form>
-  );
-}
 
 function DesignerComponent({
   elementInstance,
@@ -116,10 +57,32 @@ function DesignerComponent({
 }) {
   const element = elementInstance as CustomInstance;
   const { tittle } = element.extraAttributes;
+  const { updateElement, selectedElement } = useDesigner();
+  const isSelected = selectedElement?.id === element.id;
+
+  const updateProp = (value: string) => {
+    updateElement(element.id, {
+      ...element,
+      extraAttributes: {
+        tittle: value,
+      },
+    });
+  };
+
   return (
     <div className="flex flex-col gap-2 w-full">
-      <Label>Tittle Field</Label>
-      <p className="text-xl">{tittle}</p>
+      {isSelected ? (
+        <Input
+          value={tittle}
+          onChange={(e) => updateProp(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") e.currentTarget.blur();
+          }}
+          className="text-lg md:text-xl font-bold pl-2 border-none bg-transparent hover:bg-accent/50 focus-visible:ring-0 focus-visible:bg-background focus-visible:border-b-2 rounded-sm h-auto py-1 shadow-none pointer-events-auto"
+        />
+      ) : (
+        <p className="text-lg md:text-xl font-bold pl-2">{tittle}</p>
+      )}
     </div>
   );
 }
@@ -131,5 +94,5 @@ function FormComponent({
   const element = elementInstance as CustomInstance;
 
   const { tittle } = element.extraAttributes;
-  return <p className="text-xl">{tittle}</p>;
+  return <p className="text-lg md:text-xl pl-2">{tittle}</p>;
 }

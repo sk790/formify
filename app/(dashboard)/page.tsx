@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Link from "next/link";
 import DeleteForm from "@/components/DeleteForm";
+import { StatsCard } from "@/components/StatsCard";
 
 export default function Home() {
   return (
@@ -30,9 +31,9 @@ export default function Home() {
         <Suspense fallback={<StatsCards loading={true} />}>
           <CardStatsWrapper />
         </Suspense>
-        <Separator className="my-6" />
-        <h2 className="text-4xl font-bold col-span-2">Your Cards</h2>
-        <Separator className="my-6" />
+        <Separator className="my-4 md:my-6" />
+        <h2 className="text-2xl md:text-4xl font-bold col-span-2">Your Cards</h2>
+        <Separator className="my-4 md:my-6" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <CreateFormBtn />
           <Suspense
@@ -62,7 +63,7 @@ function StatsCards(props: StatsCardProps) {
   const { data, loading } = props;
 
   return (
-    <div className="w-full pt-8 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+    <div className="w-full pt-4 md:pt-8 gap-3 md:gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
       <StatsCard
         title="Total Visits"
         icon={<LuView className="text-blue-600" />}
@@ -99,41 +100,7 @@ function StatsCards(props: StatsCardProps) {
   );
 }
 
-export function StatsCard({
-  title,
-  icon,
-  helperText,
-  value,
-  loading,
-  className,
-}: {
-  title: string;
-  icon: React.ReactNode;
-  helperText: string;
-  value: string;
-  loading: boolean;
-  className: string;
-}) {
-  return (
-    <Card className={className}>
-      <CardHeader className="flex justify-between pb-1 items-center flex-row">
-        <CardTitle>{title}</CardTitle>
-        {icon}
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold">
-          {loading && (
-            <Skeleton>
-              <span className="opacity-0">0</span>
-            </Skeleton>
-          )}
-          {!loading && <span>{value}</span>}
-        </div>
-        <p className="text-xs text-muted-foreground pt-1">{helperText}</p>
-      </CardContent>
-    </Card>
-  );
-}
+
 
 function FormCadSkeleton() {
   return <Skeleton className="border-2 border-primary/20 h-[196px] w-full" />;
@@ -178,7 +145,7 @@ function FormCard({ form }: { form: Form }) {
       </CardContent>
       <CardFooter className="flex items-center justify-center gap-4">
         {form.published && (
-          <Button asChild className="w-full text-md gap-2">
+          <Button asChild className="w-full text-sm md:text-base gap-2">
             <Link href={`/forms/${form.id}`}>
               View Submissions <BiRightArrowAlt />
             </Link>
@@ -188,7 +155,7 @@ function FormCard({ form }: { form: Form }) {
           <Button
             variant={"secondary"}
             asChild
-            className="w-full text-md gap-2"
+            className="w-full text-sm md:text-base gap-2"
           >
             <Link href={`/builder/${form.id}`}>
               Edit form <FaEdit />

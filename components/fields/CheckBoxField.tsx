@@ -33,12 +33,14 @@ const extraAttributes = {
   label: "Checkbox Field",
   helperText: "Helper text",
   required: false,
+  hasHelperText: false,
 };
 
 const propertiesSchema = z.object({
   label: z.string().min(3).max(40),
   helperText: z.string().max(40),
   required: z.boolean().default(false),
+  hasHelperText: z.boolean().default(false),
 });
 
 export const CheckboxFieldFormElement: FormElement = {
@@ -183,8 +185,22 @@ function DesignerComponent({
   elementInstance: FormElementInstance;
 }) {
   const element = elementInstance as CustomInstance;
-  const { label, helperText, required } = element.extraAttributes;
+  const { label, helperText, required, hasHelperText } = element.extraAttributes;
   const id = `checkbox-${element.id}`;
+  const { selectedElement, setSelectedElement } = useDesigner();
+  const isSelected = selectedElement?.id === element.id;
+
+  function updateProp(key: string, value: any) {
+    const { updateElement } = useDesigner();
+    updateElement(element.id, {
+      ...element,
+      extraAttributes: {
+        ...element.extraAttributes,
+        [key]: value,
+      },
+    });
+  }
+
   return (
     <div className="flex items-top space-x-2">
       <Checkbox id={id} />
@@ -193,9 +209,20 @@ function DesignerComponent({
           {label}
           {required && <span className="text-red-500"> * </span>}
         </Label>
-        {/* {helperText && (
-          <p className="text-sm text-muted-foreground">{helperText}</p>
-        )} */}
+        {hasHelperText && (
+          isSelected ? (
+            <Input
+              value={helperText}
+              onChange={(e) => updateProp("helperText", e.target.value)}
+              placeholder="Helper text"
+              className="text-[0.8rem] rounded-sm text-muted-foreground pl-2 border-none bg-transparent hover:bg-accent/50 focus-visible:ring-0 focus-visible:bg-background focus-visible:border-b-2 h-auto py-1 shadow-none pointer-events-auto"
+            />
+          ) : (
+            helperText && (
+              <p className="text-[0.8rem] text-muted-foreground pl-2">{helperText}</p>
+            )
+          )
+        )}
       </div>
     </div>
   );
@@ -222,7 +249,7 @@ function FormComponent({
     setError(isInvalid === true);
   }, [isInvalid]);
 
-  const { label, helperText, placeholder, required } = element.extraAttributes;
+  const { label, helperText, required, hasHelperText } = element.extraAttributes;
   const id = `checkbox-${element.id}`;
   return (
     <div className="flex items-top space-x-2">
@@ -246,10 +273,10 @@ function FormComponent({
           {label}
           {required && <span className="text-red-500"> * </span>}
         </Label>
-        {helperText && (
+        {hasHelperText && helperText && (
           <p
             className={cn(
-              "text-sm text-muted-foreground",
+              "text-sm text-muted-foreground pl-2 rounded-sm",
               error && "text-red-500"
             )}
           >

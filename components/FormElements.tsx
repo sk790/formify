@@ -10,6 +10,7 @@ import { TextAreaFieldFormElement } from "./fields/TextAreaField";
 import { DateFieldFormElement } from "./fields/DateField";
 import { SelectFieldFormElement } from "./fields/SelectField";
 import { CheckboxFieldFormElement } from "./fields/CheckBoxField";
+import { UploadFieldFormElement } from "./fields/UploadField";
 
 export type ElementsType =
   | "TextField"
@@ -22,7 +23,8 @@ export type ElementsType =
   | "TextAreaField"
   | "DateField"
   | "SelectField"
-  | "CheckBoxField";
+  | "CheckBoxField"
+  | "UploadField";
 
 export type SubmitFunction = (key: string, value: string) => void;
 
@@ -44,7 +46,7 @@ export type FormElement = {
     isInvalid?: boolean;
     defaultValues?: string;
   }>;
-  propertiesComponent: React.FC<{
+  propertiesComponent?: React.FC<{
     elementInstance: FormElementInstance;
   }>;
 
@@ -73,4 +75,5 @@ export const FormElements: FormElementsType = {
   DateField: DateFieldFormElement,
   SelectField: SelectFieldFormElement,
   CheckBoxField: CheckboxFieldFormElement,
+  UploadField: UploadFieldFormElement,
 };

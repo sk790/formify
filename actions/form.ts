@@ -188,3 +188,19 @@ export async function deleteForm(formId: number) {
     },
   });
 }
+
+export async function UpdateFormName(id: number, name: string) {
+  const user = await currentUser();
+  if (!user) {
+    throw new UserNotFoundErr();
+  }
+  return await prisma.form.update({
+    where: {
+      userId: user.id,
+      id,
+    },
+    data: {
+      name,
+    },
+  });
+}

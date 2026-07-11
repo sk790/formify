@@ -8,17 +8,18 @@ import { ImShare } from "react-icons/im";
 
 function FormLinkShare({ shareLink }: { shareLink: string }) {
   const [mounted, setMounted] = useState(false);
-  const shareUrl = `${window.location.origin}/submit/${shareLink}`;
-
   useEffect(() => {
     setMounted(true);
   }, []);
+
   if (!mounted) return null; //avoiding window not define
+
+  const shareUrl = `${window.location.origin}/submit/${shareLink}`;
   return (
-    <div className="flex flex-grow gap-4 items-center">
-      <Input value={shareUrl} readOnly />
+    <div className="flex flex-col md:flex-row flex-grow gap-2 md:gap-4 items-center w-full">
+      <Input value={shareUrl} readOnly className="w-full" />
       <Button
-        className="w-[250px]"
+        className="w-full md:w-[250px]"
         onClick={() => {
           navigator.clipboard.writeText(shareUrl);
           toast({

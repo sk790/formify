@@ -3,6 +3,12 @@ import { FormElement } from "./FormElements";
 import { Button } from "./ui/button";
 import { useDraggable } from "@dnd-kit/core";
 import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function ToolBarBtnElement({ formElement }: { formElement: FormElement }) {
   const { icon: Icon, label } = formElement.desinerBtnElement;
@@ -15,19 +21,27 @@ function ToolBarBtnElement({ formElement }: { formElement: FormElement }) {
     },
   });
   return (
-    <Button
-      ref={draggable.setNodeRef}
-      className={cn(
-        `flex flex-col gap-2 w-[100px] h-[100px] cursor-grab`,
-        draggable.isDragging && "ring-2 ring-primary"
-      )}
-      variant={"outline"}
-      {...draggable.attributes}
-      {...draggable.listeners}
-    >
-      <Icon className="h-6 w-6 text-primary cursor-grab" />
-      <p className="text-sm">{label}</p>
-    </Button>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            ref={draggable.setNodeRef}
+            className={cn(
+              `flex flex-col gap-2 w-10 h-10 shrink-0 cursor-grab px-0 justify-center items-center`,
+              draggable.isDragging && "ring-2 ring-primary"
+            )}
+            variant={"ghost"}
+            {...draggable.attributes}
+            {...draggable.listeners}
+          >
+            <Icon className="h-5 w-5 text-primary cursor-grab" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent side="right">
+          <p>{label}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 
@@ -36,14 +50,13 @@ export function ToolBarBtnElementDragOverLay({
 }: {
   formElement: FormElement;
 }) {
-  const { icon: Icon, label } = formElement.desinerBtnElement;
+  const { icon: Icon } = formElement.desinerBtnElement;
   return (
     <Button
-      className={`flex flex-col gap-2 w-[120px] h-[120px] cursor-grab`}
+      className={`flex flex-col gap-2 w-10 h-10 cursor-grab px-0 justify-center items-center`}
       variant={"outline"}
     >
-      <Icon className="h-8 w-8 text-primary cursor-grab" />
-      <p className="text-sm">{label}</p>
+      <Icon className="h-5 w-5 text-primary cursor-grab" />
     </Button>
   );
 }

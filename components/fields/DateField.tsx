@@ -24,6 +24,7 @@ import {
 } from "../ui/form";
 import { Switch } from "../ui/switch";
 import { cn } from "@/lib/utils";
+import { Separator } from "../ui/separator";
 import { BsFillCalendarDateFill } from "react-icons/bs";
 import { Button } from "../ui/button";
 import { CalendarIcon } from "@radix-ui/react-icons";
@@ -34,15 +35,17 @@ import { Calendar } from "../ui/calendar";
 const type: ElementsType = "DateField";
 
 const extraAttributes = {
-  label: "Date",
+  label: "Date Field",
   helperText: "Pick a date",
   required: false,
+  hasHelperText: false,
 };
 
 const propertiesSchema = z.object({
   label: z.string().min(3).max(40),
   helperText: z.string().max(40),
   required: z.boolean().default(false),
+  hasHelperText: z.boolean().default(false),
 });
 
 export const DateFieldFormElement: FormElement = {
@@ -59,7 +62,6 @@ export const DateFieldFormElement: FormElement = {
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
-  propertiesComponent: PropertiesComponent,
   validate: (
     formElement: FormElementInstance,
     currentValue: string
@@ -76,125 +78,45 @@ type CustomInstance = FormElementInstance & {
   extraAttributes: typeof extraAttributes;
 };
 
-type propertiesFormSchemaType = z.infer<typeof propertiesSchema>;
-
-function PropertiesComponent({
-  elementInstance,
-}: {
-  elementInstance: FormElementInstance;
-}) {
-  const { updateElement } = useDesigner();
-  const element = elementInstance as CustomInstance;
-  const form = useForm<propertiesFormSchemaType>({
-    resolver: zodResolver(propertiesSchema),
-    mode: "onBlur",
-    defaultValues: {
-      label: element.extraAttributes.label,
-      helperText: element.extraAttributes.helperText,
-      required: element.extraAttributes.required,
-    },
-  });
-
-  useEffect(() => {
-    form.reset(element.extraAttributes);
-  }, [element, form]);
-
-  function applyChanges(data: propertiesFormSchemaType) {
-    const { label, helperText, required } = data;
-    updateElement(element.id, {
-      ...element,
-      extraAttributes: {
-        label,
-        helperText,
-        required,
-      },
-    });
-  }
-
-  return (
-    <Form {...form}>
-      <form
-        onBlur={form.handleSubmit(applyChanges)}
-        className="space-y-3"
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <FormField
-          name="label"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Label</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.currentTarget.blur();
-                    }
-                  }}
-                />
-              </FormControl>
-              <FormDescription>Description</FormDescription>
-            </FormItem>
-          )}
-        ></FormField>
-
-        <FormField
-          name="helperText"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Helper Text</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.currentTarget.blur();
-                    }
-                  }}
-                />
-              </FormControl>
-              <FormDescription>Description</FormDescription>
-            </FormItem>
-          )}
-        ></FormField>
-        <FormField
-          name="required"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between rounded-lg border p-3 shadow-md">
-              <div className="space-y-0.5">
-                <FormLabel>Required</FormLabel>
-                <FormDescription>Description</FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        ></FormField>
-      </form>
-    </Form>
-  );
-}
-
 function DesignerComponent({
   elementInstance,
 }: {
   elementInstance: FormElementInstance;
 }) {
   const element = elementInstance as CustomInstance;
-  const { label, helperText, required } = element.extraAttributes;
+  const { label, helperText, required, hasHelperText } = element.extraAttributes;
+  const { updateElement, selectedElement } = useDesigner();
+  const isSelected = selectedElement?.id === element.id;
+
+  const updateProp = (key: string, value: any) => {
+    updateElement(element.id, {
+      ...element,
+      extraAttributes: {
+        ...element.extraAttributes,
+        [key]: value,
+      },
+    });
+  };
+
   return (
     <div className="flex flex-col gap-2 w-full">
-      <Label>
-        {label}
-        {required && <span className="text-red-500"> * </span>}
-      </Label>
+      <div className="flex items-center gap-1 w-full">
+        {isSelected ? (
+          <Input
+            value={label}
+            onChange={(e) => updateProp("label", e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") e.currentTarget.blur();
+            }}
+            placeholder="Question Label"
+            className="text-base font-medium border-none bg-transparent hover:bg-accent/50 focus-visible:ring-0 focus-visible:bg-background focus-visible:border-b-2 rounded-sm h-auto py-1 shadow-none pointer-events-auto flex-grow"
+          />
+        ) : (
+          <Label className="text-base font-medium">{label}</Label>
+        )}
+        {required && <span className="text-red-500">*</span>}
+      </div>
+
       <Button
         variant={"outline"}
         className="w-full justify-start text-left font-normal"
@@ -202,12 +124,27 @@ function DesignerComponent({
         <CalendarIcon className="mr-2 h-4 w-4" />
         <span>Pick a date</span>
       </Button>
-      {/* {helperText && (
-        <p className="text-sm text-muted-foreground">{helperText}</p>
-      )} */}
+
+      {hasHelperText && (
+        isSelected ? (
+          <Input
+            value={helperText}
+            onChange={(e) => updateProp("helperText", e.target.value)}
+            placeholder="Helper text"
+            className="text-[0.8rem] rounded-sm text-muted-foreground pl-2 border-none bg-transparent hover:bg-accent/50 focus-visible:ring-0 focus-visible:bg-background focus-visible:border-b-2 h-auto py-1 shadow-none pointer-events-auto"
+          />
+        ) : (
+          helperText && (
+            <p className="text-[0.8rem] text-muted-foreground pl-2">{helperText}</p>
+          )
+        )
+      )}
+
+
     </div>
   );
 }
+
 function FormComponent({
   elementInstance,
   submitValue,
@@ -230,7 +167,7 @@ function FormComponent({
     setError(isInvalid === true);
   }, [isInvalid]);
 
-  const { label, helperText, placeholder, required } = element.extraAttributes;
+  const { label, helperText, required, hasHelperText } = element.extraAttributes;
   return (
     <div className="flex flex-col gap-2 w-full">
       <Label className={cn(error && "text-red-500")}>
@@ -267,10 +204,10 @@ function FormComponent({
           />
         </PopoverContent>
       </Popover>
-      {helperText && (
+      {hasHelperText && helperText && (
         <p
           className={cn(
-            "text-sm text-muted-foreground",
+            "text-sm text-muted-foreground pl-2",
             error && "text-red-500"
           )}
         >

@@ -5,12 +5,13 @@ import { Button } from "./ui/button";
 
 function VisitBtn({ shareLink }: { shareLink: string }) {
   const [mounted, setMounted] = useState(false);
-  const shareUrl = `${window.location.origin}/submit/${shareLink}`;
-
   useEffect(() => {
     setMounted(true);
   }, []);
+
   if (!mounted) return null; //avoiding window not define
+
+  const shareUrl = `${window.location.origin}/submit/${shareLink}`;
   return (
     <Button
       className="w-[200px]"

@@ -19,13 +19,10 @@ export const SeparatorFieldFormElement: FormElement = {
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
-  propertiesComponent: PropertiesComponent,
   validate: () => true,
 };
 
-function PropertiesComponent() {
-  return <p>No Property foe this component</p>;
-}
+
 
 function DesignerComponent() {
   return (
