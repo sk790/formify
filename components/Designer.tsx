@@ -173,7 +173,7 @@ function Designer() {
           </div>
 
           {/* Toolbar */}
-          <div className="md:sticky md:top-4 fixed bottom-0 left-0 w-full md:w-auto m z-50">
+          <div className="md:h-full fixed bottom-0 left-0 w-full md:w-auto md:relative z-50">
             <DesignerToolbar />
           </div>
         </div>

@@ -52,6 +52,7 @@
     "confetti": "^2.0.3",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.1.6",
+    "framer-motion": "^12.42.2",
     "input-otp": "^1.2.4",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.408.0",

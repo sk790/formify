@@ -3,7 +3,7 @@
 import { Form } from "@prisma/client";
 import React, { useEffect, useState } from "react";
 import PreviewDialogBtn from "./PreviewDialogBtn";
-import SaveFormBtn from "./SaveFormBtn";
+import SaveStatusIndicator from "./SaveStatusIndicator";
 import PublishedFormBtn from "./PublishedFormBtn";
 import Designer from "./Designer";
 import {
@@ -63,14 +63,20 @@ function FormBuilder({ form }: { form: Form }) {
   const sensors = useSensors(mouseSensor, touchSensor);
 
   useEffect(() => {
-    const elements = JSON.parse(form.content);
-    if (elements.length === 0) {
-      const id = "header-" + Math.floor(Math.random() * 10000).toString();
-      const newElement = FormElements.FormHeaderField.construct(id);
-      setElements([newElement]);
-      setSelectedElement(newElement);
+    const localData = localStorage.getItem(`form-elements-${form.id}`);
+    
+    if (localData) {
+      setElements(JSON.parse(localData));
     } else {
-      setElements(elements);
+      const elements = JSON.parse(form.content);
+      if (elements.length === 0) {
+        const id = "header-" + Math.floor(Math.random() * 10000).toString();
+        const newElement = FormElements.FormHeaderField.construct(id);
+        setElements([newElement]);
+        setSelectedElement(newElement);
+      } else {
+        setElements(elements);
+      }
     }
   }, [form, setElements, setSelectedElement]);
 
@@ -151,7 +157,7 @@ function FormBuilder({ form }: { form: Form }) {
               <PreviewDialogBtn />
               {!form.published && (
                 <>
-                  <SaveFormBtn id={form.id} />
+                  <SaveStatusIndicator id={form.id} />
                   <PublishedFormBtn id={form.id} />
                 </>
               )}

@@ -13,7 +13,7 @@ function Layout({ children }: { children: ReactNode }) {
           <UserButton/>
         </div>
       </nav>
-      <main className="flex w-full flex-grow overflow-hidden"> {children}</main>
+      <main className="flex w-full flex-grow overflow-y-auto"> {children}</main>
     </div>
   );
 }
