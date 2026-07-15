@@ -9,6 +9,7 @@ import useDesigner from "@/components/hooks/useDesigner";
 import { FaPenFancy } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import SignatureCanvas from "react-signature-canvas";
+import { useTheme } from "next-themes";
 
 const type: ElementsType = "SignatureField";
 
@@ -119,6 +120,7 @@ function FormComponent({
   const [value, setValue] = useState(defaultValue || "");
   const [error, setError] = useState(false);
   const sigCanvas = useRef<SignatureCanvas>(null);
+  const { theme, systemTheme } = useTheme();
 
   useEffect(() => {
     setError(isInvalid === true);
@@ -160,7 +162,7 @@ function FormComponent({
       <div className={cn("relative border-2 rounded-md bg-background overflow-hidden", error && "border-red-500")}>
         <SignatureCanvas
           ref={sigCanvas}
-          penColor="black"
+          penColor={theme === "dark" || (theme === "system" && systemTheme === "dark") ? "white" : "black"}
           canvasProps={{ className: "w-full h-[150px] cursor-crosshair touch-none" }}
           onEnd={handleEnd}
         />

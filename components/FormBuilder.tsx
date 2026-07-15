@@ -6,6 +6,7 @@ import PreviewDialogBtn from "./PreviewDialogBtn";
 import SaveStatusIndicator from "./SaveStatusIndicator";
 import PublishedFormBtn from "./PublishedFormBtn";
 import Designer from "./Designer";
+import CircuitBackground from "./CircuitBackground";
 import {
   DndContext,
   MouseSensor,
@@ -164,8 +165,11 @@ function FormBuilder({ form }: { form: Form }) {
             </div>
           </div>
         </nav>
-        <div className="flex w-full flex-grow items-center justify-center relative overflow-hidden h-full bg-accent bg-[url(/rails.svg)] dark:bg-[url(/rails-dark.svg)]">
-          <Designer />
+        <div className="flex w-full flex-grow items-center justify-center relative overflow-hidden h-full bg-background selection:bg-indigo-500/30">
+          <CircuitBackground />
+          <div className="relative z-10 w-full h-full flex flex-grow items-center justify-center pointer-events-auto">
+            <Designer />
+          </div>
         </div>
       </main>
       <DragOverlayWrapper />

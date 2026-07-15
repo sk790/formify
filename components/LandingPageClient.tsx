@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import CircuitBackground from "./CircuitBackground";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function LandingPageClient() {
   const { scrollYProgress } = useScroll();
@@ -29,14 +30,23 @@ export default function LandingPageClient() {
         <Logo />
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          <Link href="/sign-in" className="hidden sm:block">
-            <Button variant="ghost" className="font-semibold">Log in</Button>
-          </Link>
-          <Link href="/sign-up">
-            <Button className="bg-gradient-to-r from-indigo-500 to-teal-500 text-white font-semibold border-0 hover:opacity-90 transition-opacity">
-              Get Started
-            </Button>
-          </Link>
+          <SignedIn>
+            <Link href="/dashboard">
+              <Button className="bg-gradient-to-r from-indigo-500 to-teal-500 text-white font-semibold border-0 hover:opacity-90 transition-opacity">
+                Dashboard
+              </Button>
+            </Link>
+          </SignedIn>
+          <SignedOut>
+            <Link href="/sign-in" className="hidden sm:block">
+              <Button variant="ghost" className="font-semibold">Log in</Button>
+            </Link>
+            <Link href="/sign-up">
+              <Button className="bg-gradient-to-r from-indigo-500 to-teal-500 text-white font-semibold border-0 hover:opacity-90 transition-opacity">
+                Get Started
+              </Button>
+            </Link>
+          </SignedOut>
         </div>
       </motion.nav>
 

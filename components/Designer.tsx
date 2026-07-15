@@ -148,7 +148,7 @@ function Designer() {
           <div
             ref={droppable.setNodeRef}
             className={cn(
-              `bg-background w-full max-w-[920px] h-full rounded-xl flex flex-col flex-grow items-center justify-start flex-1 shadow-sm overflow-y-auto`,
+              `bg-background border-2 border-muted w-full max-w-[920px] h-full rounded-xl flex flex-col flex-grow items-center justify-start flex-1 shadow-sm overflow-y-auto`,
               droppable.isOver && "ring-4 ring-primary",
             )}
           >
@@ -230,7 +230,7 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
         ref={draggable.setNodeRef}
         {...draggable.attributes}
         className={cn(
-          "relative min-h-[100px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset",
+          "relative min-h-[80px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset",
           isSelected && "ring-2 ring-primary shadow-md z-10",
         )}
         onMouseOver={() => setMouseIsOver(true)}
@@ -267,13 +267,13 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
         
         <div
           className={cn(
-            "flex flex-col w-full min-h-[120px] rounded-md bg-accent/40 opacity-100",
+            "flex flex-col w-full min-h-[80px] rounded-md bg-transparent opacity-100",
             mouseIsOver && !isSelected && "opacity-30",
             topHalf.isOver && "border-t-4 border-green-500 rounded-md",
             bottomHalf.isOver && "border-b-4 border-red-500 rounded-md",
           )}
         >
-          <div className="flex w-full flex-grow items-center px-2 md:px-4 pt-4 md:pt-6 pb-1 md:pb-2 pointer-events-none">
+          <div className="flex w-full flex-grow items-center px-2 md:px-4 pt-6 pb-2 pointer-events-none">
             <DesignerElement elementInstance={element} />
           </div>
           {isSelected && (
@@ -311,6 +311,44 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
                           extraAttributes: {
                             ...element.extraAttributes,
                             hasHelperText: checked,
+                          },
+                        });
+                      }}
+                    />
+                  </div>
+                )}
+                {element.extraAttributes?.ratingType !== undefined && (
+                  <div className="flex items-center gap-1 md:gap-2 cursor-pointer">
+                    <Label className="text-xs md:text-sm font-medium cursor-pointer">
+                      Emoji
+                    </Label>
+                    <Switch
+                      checked={element.extraAttributes.ratingType === "emoji"}
+                      onCheckedChange={(checked) => {
+                        updateElement(element.id, {
+                          ...element,
+                          extraAttributes: {
+                            ...element.extraAttributes,
+                            ratingType: checked ? "emoji" : "star",
+                          },
+                        });
+                      }}
+                    />
+                  </div>
+                )}
+                {element.extraAttributes?.hasCommentField !== undefined && (
+                  <div className="flex items-center gap-1 md:gap-2 cursor-pointer">
+                    <Label className="text-xs md:text-sm font-medium cursor-pointer">
+                      Comment
+                    </Label>
+                    <Switch
+                      checked={element.extraAttributes.hasCommentField === true}
+                      onCheckedChange={(checked) => {
+                        updateElement(element.id, {
+                          ...element,
+                          extraAttributes: {
+                            ...element.extraAttributes,
+                            hasCommentField: checked,
                           },
                         });
                       }}

@@ -132,6 +132,7 @@ async function SubmissionTable({ formId }: { formId: number }) {
       case "SignatureField":
       case "AudioRecorderField":
       case "RadioField":
+      case "RatingField":
         columns.push({
           id: element.id,
           label: element.extraAttributes?.label,
@@ -265,6 +266,20 @@ function RowCell({ type, value }: { type: ElementsType; value: string }) {
       node = (
         <audio controls src={value} className="h-10 w-48" />
       );
+      break;
+    case "RatingField":
+      if (!value) break;
+      try {
+        const parsed = JSON.parse(value);
+        node = (
+          <div className="flex flex-col">
+            <span className="font-bold">{parsed.rating} ★</span>
+            {parsed.comment && <span className="text-xs text-muted-foreground">{parsed.comment}</span>}
+          </div>
+        );
+      } catch {
+        node = <span className="font-bold">{value} ★</span>;
+      }
       break;
   }
   return <TableCell>{node}</TableCell>;

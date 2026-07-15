@@ -123,7 +123,7 @@ function DesignerComponent({
           </SelectTrigger>
         </Select>
         <Select disabled>
-          <SelectTrigger className="w-[80px]">
+          <SelectTrigger className="w-[100px]">
             <SelectValue placeholder="AM/PM" />
           </SelectTrigger>
         </Select>

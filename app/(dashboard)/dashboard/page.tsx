@@ -32,7 +32,7 @@ export default function Home() {
           <CardStatsWrapper />
         </Suspense>
         <Separator className="my-4 md:my-6" />
-        <h2 className="text-2xl md:text-4xl font-bold col-span-2">Your Cards</h2>
+        <h2 className="text-2xl md:text-4xl font-bold col-span-2">Your Forms</h2>
         <Separator className="my-4 md:my-6" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <CreateFormBtn />

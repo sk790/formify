@@ -33,7 +33,7 @@ export default function RootLayout({
         </head>
 
         <body className={inter.className}>
-          <NextToploader />
+          <NextToploader showSpinner={false} />
           <DesignerContextProvider>
             <ThemeProvider
               attribute="class"

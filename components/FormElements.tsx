@@ -20,6 +20,9 @@ import { SignatureFieldFormElement } from "./fields/SignatureField";
 import { AudioRecorderFieldFormElement } from "./fields/AudioRecorderField";
 import { FormHeaderFieldFormElement } from "./fields/FormHeaderField";
 import { RadioFieldFormElement } from "./fields/RadioField";
+import { SwitchFieldFormElement } from "./fields/SwitchField";
+import { CameraFieldFormElement } from "./fields/CameraField";
+import { RatingFieldFormElement } from "./fields/RatingField";
 export type ElementsType =
   | "TextField"
   | "TittleField"
@@ -39,6 +42,9 @@ export type ElementsType =
   | "AudioRecorderField"
   | "FormHeaderField"
   | "RadioField"
+  | "SwitchField"
+  | "CameraField"
+  | "RatingField"
   | "RadioGridField"
   | "TimeField";
 export type SubmitFunction = (key: string, value: string) => void;
@@ -97,6 +103,9 @@ export const FormElements: FormElementsType = {
   AudioRecorderField: AudioRecorderFieldFormElement,
   FormHeaderField: FormHeaderFieldFormElement,
   RadioField: RadioFieldFormElement,
+  SwitchField: SwitchFieldFormElement,
+  CameraField: CameraFieldFormElement,
+  RatingField: RatingFieldFormElement,
   RadioGridField: RadioGridFieldFormElement,
   TimeField: TimeFieldFormElement,
 };

@@ -25,6 +25,8 @@ const basicFields = [
   FormElements.CheckBoxField,
   FormElements.DateField,
   FormElements.TimeField,
+  FormElements.SwitchField,
+  FormElements.RatingField,
 ];
 
 const advancedFields = [
@@ -34,6 +36,7 @@ const advancedFields = [
   FormElements.LocationField,
   FormElements.SignatureField,
   FormElements.AudioRecorderField,
+  FormElements.CameraField,
 ];
 
 function FormElementSidebar() {
