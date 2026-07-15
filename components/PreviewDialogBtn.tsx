@@ -25,7 +25,7 @@ function PreviewDialogBtn() {
           </p>
         </div>
         <div className="bg-accent flex flex-col flex-grow items-center justify-center overflow-y-auto p-2 md:p-4">
-          <div className="flex flex-col max-w-[620px] gap-4 flex-grow bg-background h-full w-full rounded-md p-4 md:p-8 overflow-y-auto">
+          <div className="flex flex-col max-w-[620px] gap-4 flex-grow bg-background h-full w-full rounded-md p-3 md:p-4 overflow-y-auto">
             {elements.map((element) => {
               const FormComponent = FormElements[element.type].formComponent;
               return (

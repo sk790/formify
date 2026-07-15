@@ -103,7 +103,7 @@ function FormComponent({
   const { title, description } = element.extraAttributes;
   
   return (
-    <div className="flex flex-col gap-2 w-full p-4 border-b">
+    <div className="flex flex-col gap-2 w-full pb-4 border-b">
       <h1 className="text-2xl md:text-3xl font-bold pl-2">{title}</h1>
       {description && <p className="text-muted-foreground pl-2">{description}</p>}
     </div>

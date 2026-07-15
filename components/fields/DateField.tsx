@@ -201,6 +201,9 @@ function FormComponent({
               submitValue(element.id, value);
             }}
             initialFocus
+            captionLayout="dropdown-buttons"
+            fromYear={1900}
+            toYear={2100}
           />
         </PopoverContent>
       </Popover>
