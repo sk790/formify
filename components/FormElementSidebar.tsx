@@ -56,7 +56,7 @@ function FormElementSidebar() {
 
   return (
     <div className="flex flex-col w-full gap-4 h-full">
-      <div className="relative px-1">
+      <div className="relative px-1 hidden md:block">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder="Search components..."

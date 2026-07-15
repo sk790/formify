@@ -15,7 +15,7 @@ function CreateFormBtn() {
   async function onCreate() {
     try {
       setIsSubmitting(true);
-      const defaultName = `Untitled Form ${Date.now()}`;
+      const defaultName = "Untitled form";
       const formId = await CreateForm({
         name: defaultName,
         description: "",

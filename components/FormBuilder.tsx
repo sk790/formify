@@ -139,11 +139,11 @@ function FormBuilder({ form }: { form: Form }) {
     <DndContext sensors={sensors}>
       <main className="flex flex-col w-full h-full overflow-hidden">
         <nav className="flex flex-col w-full shrink-0">
-          <div className="flex justify-between border-b-2 p-2 md:p-4 gap-2 md:gap-3 items-center flex-col md:flex-row">
-            <div className="flex items-center gap-2">
-              <span className="text-muted-foreground truncate font-medium text-sm md:text-base">Form:</span>
+          <div className="flex justify-between border-b-2 p-2 md:p-4 gap-2 items-center">
+            <div className="flex items-center gap-1 md:gap-2">
+              <span className="text-muted-foreground truncate font-medium text-xs md:text-base hidden sm:inline">Form:</span>
               <Input
-                className="w-[200px] md:w-[300px] border-transparent hover:border-input focus:border-input bg-transparent text-base md:text-lg font-medium"
+                className="w-[120px] sm:w-[200px] md:w-[300px] border-transparent hover:border-input focus:border-input bg-transparent text-sm md:text-lg font-medium px-1 md:px-3"
                 value={formName}
                 onChange={(e) => setFormName(e.target.value)}
                 onBlur={(e) => updateName(e.target.value)}
